@@ -17,11 +17,29 @@ public class MenuActions {
         System.out.println("Please enter client PESEL number:");
         String pesel = keyboard.nextLine();
         System.out.println("Please enter deposit amount:");
-        Double deposit = Double.parseDouble(keyboard.nextLine());
+
+        double deposit = 0.00;
+        try {
+            deposit = Double.parseDouble(keyboard.nextLine());
+
+            if (deposit < 0) {
+                System.out.println();
+                System.out.println("--- Deposit should be 0 or bigger. ---");
+                pressEnter();
+                return;
+            }
+        } catch (NumberFormatException e) {
+            System.out.println();
+            System.out.println("--- Incorrect deposit value. ---");
+            System.out.println();
+            pressEnter();
+
+            return;
+        }
 
         Customer customer = new Customer(name, surName, pesel);
         customers.add(customer);
-        customer.addAccount(new Account("checking account", deposit));
+        customer.addAccount(new Checking(deposit));
 
         System.out.println();
         System.out.println("--- Customer profile and checking account was successfully created. ---");
@@ -44,9 +62,15 @@ public class MenuActions {
             System.out.println("Please enter deposit amount:");
             double deposit = Double.parseDouble(keyboard.nextLine());
             Customer customer = checkPesel(pesel);
-            customer.addAccount(new Account(type, deposit));
 
-            System.out.println("");
+            if (type.equals("checking")) {
+                customer.addAccount(new Checking(deposit));
+            }
+            else {
+                customer.addAccount(new Savings(deposit));
+            }
+
+            System.out.println();
             System.out.println("--- New account was successfully created. ---");
             System.out.println();
         }
@@ -55,6 +79,45 @@ public class MenuActions {
     }
 
     public static void changeInterest() {
+        System.out.println("--------------- CHANGING SAVINGS ACCOUNTS RATE OF INTEREST --------------");
+        System.out.println();
+        System.out.println("Example: enter 0.03 to set up rate on 3%.");
+        System.out.println("This operation will change rate of interest for all savings accounts.");
+        System.out.println("Please enter rate of interest:");
+
+        double interest = 0.00;
+        try {
+            interest = Double.parseDouble(keyboard.nextLine());
+
+            if (interest < 0) {
+                System.out.println();
+                System.out.println("--- Deposit should be 0 or bigger. ---");
+                pressEnter();
+                return;
+            }
+        } catch (NumberFormatException e) {
+            System.out.println();
+            System.out.println("--- Incorrect deposit value. ---");
+            System.out.println();
+            pressEnter();
+
+            return;
+        }
+
+        for (Customer customer : customers) {
+            List<Account> accounts = customer.getAccounts();
+            for (Account account : accounts) {
+                if (account.getAccountType().equals("savings")) {
+                    account.setInterest(interest);
+                }
+            }
+        }
+
+        System.out.println();
+        System.out.println("--- Rate of interest for all savings accounts was changed ---");
+        System.out.println();
+
+        pressEnter();
     }
 
     public static void customerDetails() {
@@ -82,18 +145,16 @@ public class MenuActions {
         Customer customer = checkPesel(pesel);
         if (!customer.equals(null)) {
             System.out.println(customer);
-            System.out.println("To deposit money choose account and enter number below:");
+            System.out.println("Choose account and enter proper number below:");
             int number = Integer.parseInt(keyboard.nextLine());
             System.out.println("Please enter how much do you want deposit:");
             Double deposit = Double.parseDouble(keyboard.nextLine());
             Account account = checkAccount(customer, number);
-            account.deposit(deposit);
 
-            System.out.println("");
-            System.out.println("--- Money was successfully deposited. ---");
-            System.out.println();
-            System.out.println("                 CUSTOMER DETAILS AFTER OPERATION                 ");
-            System.out.println(customer);
+            if (account.deposit(deposit)) {
+                System.out.println("                 CUSTOMER DETAILS AFTER OPERATION                 ");
+                System.out.println(customer);
+            }
 
         }
         pressEnter();
@@ -112,16 +173,13 @@ public class MenuActions {
             System.out.println("To withdraw money choose account and enter number below:");
             int number = Integer.parseInt(keyboard.nextLine());
             System.out.println("Please enter how much do you want withdraw:");
-            Double withdraw = Double.parseDouble(keyboard.nextLine());
+            Double withdrawAmount = Double.parseDouble(keyboard.nextLine());
             Account account = checkAccount(customer, number);
-            account.withdraw(withdraw);
 
-            System.out.println("");
-            System.out.println("--- Money was successfully withdrawn. ---");
-            System.out.println();
-            System.out.println("                 CUSTOMER DETAILS AFTER OPERATION                 ");
-            System.out.println(customer);
-
+            if (account.withdraw(withdrawAmount)) {
+                System.out.println("                 CUSTOMER DETAILS AFTER OPERATION                 ");
+                System.out.println(customer);
+            }
         }
         pressEnter();
     }
@@ -152,6 +210,7 @@ public class MenuActions {
         if (customer == null) {
             System.out.println();
             System.out.println("--- Person with this PESEL number is not a customer of MKBank. ---");
+            System.out.println();
         }
 
         return customer;

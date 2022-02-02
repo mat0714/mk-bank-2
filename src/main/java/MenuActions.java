@@ -4,36 +4,24 @@ import java.util.Scanner;
 
 public class MenuActions {
 
-    private static List<Customer> customers = new ArrayList<>();
+    private static final List<Customer> customers = new ArrayList<>();
     private static Scanner keyboard = new Scanner(System.in);
-
     public static void createNewCustomerAndAccount() {
-        System.out.println("-------- CREATING NEW CUSTOMER PROFILE WITH NEW CHECKING ACCOUNT --------");
-        System.out.println();
-        System.out.println("Please enter client name");
+        System.out.println("\n-------- CREATING NEW CUSTOMER PROFILE WITH NEW CHECKING ACCOUNT --------\n");
+        System.out.print("Please enter client name: ");
         String name = keyboard.nextLine();
-        System.out.println("Please enter client surname:");
+        System.out.print("Please enter client surname: ");
         String surName = keyboard.nextLine();
-        System.out.println("Please enter client PESEL number:");
+        System.out.print("Please enter client PESEL number: ");
         String pesel = keyboard.nextLine();
-        System.out.println("Please enter deposit amount:");
-
-        double deposit = 0.00;
+        System.out.print("Please enter deposit amount[$]: ");
+        double deposit;
         try {
             deposit = Double.parseDouble(keyboard.nextLine());
 
-            if (deposit < 0) {
-                System.out.println();
-                System.out.println("--- Deposit should be 0 or bigger. ---");
-                pressEnter();
-                return;
-            }
         } catch (NumberFormatException e) {
-            System.out.println();
-            System.out.println("--- Incorrect deposit value. ---");
-            System.out.println();
+            System.out.println("\n--- Incorrect deposit value. ---\n");
             pressEnter();
-
             return;
         }
 
@@ -41,26 +29,34 @@ public class MenuActions {
         customers.add(customer);
         customer.addAccount(new Checking(deposit));
 
-        System.out.println();
-        System.out.println("--- Customer profile and checking account was successfully created. ---");
-        System.out.println();
+        System.out.println("\n--- Customer profile and checking account was successfully created. ---\n");
+        System.out.println("                 CUSTOMER DETAILS AFTER OPERATION                 ");
+        System.out.println(customer);
 
         pressEnter();
     }
 
     public static void createAccount() {
-        System.out.println("------------------- CREATING NEXT ACCOUNT FOR CUSTOMER ------------------");
-        System.out.println();
-        System.out.println("Please enter PESEL number of existing customer:");
+        System.out.println("\n------------------- CREATING NEXT ACCOUNT FOR CUSTOMER ------------------\n");
+        System.out.print("Please enter PESEL number of existing customer: ");
         String pesel = keyboard.nextLine();
 
         if (checkPesel(pesel) != null) {
-            System.out.println("--- Customer was found. You can create account. ---");
-            System.out.println();
-            System.out.println("Please enter type of account (checking/savings):");
+            System.out.println("\n--- Customer was found. You can create account. ---\n");
+            System.out.print("Please enter type of account (checking/savings):");
             String type = keyboard.nextLine();
-            System.out.println("Please enter deposit amount:");
-            double deposit = Double.parseDouble(keyboard.nextLine());
+            System.out.print("Please enter deposit amount[$]: ");
+
+            double deposit;
+            try {
+                deposit = Double.parseDouble(keyboard.nextLine());
+
+            } catch (NumberFormatException e) {
+                System.out.println("\n--- Incorrect deposit amount. ---\n");
+                pressEnter();
+                return;
+            }
+
             Customer customer = checkPesel(pesel);
 
             if (type.equals("checking")) {
@@ -70,34 +66,116 @@ public class MenuActions {
                 customer.addAccount(new Savings(deposit));
             }
 
-            System.out.println();
-            System.out.println("--- New account was successfully created. ---");
-            System.out.println();
+            System.out.println("\n--- New account was successfully created. ---\n");
         }
 
         pressEnter();
     }
 
+    public static void customerDetails() {
+
+        System.out.println("\n---------------------------- CUSTOMER DETAILS ---------------------------\n");
+        System.out.print("Please enter customer PESEL number: ");
+        String pesel = keyboard.nextLine();
+
+        if (checkPesel(pesel) != null) {
+            Customer customer = checkPesel(pesel);
+            System.out.println("\n" + customer);
+        }
+        pressEnter();
+    }
+
+    public static void depositMoney() {
+
+        System.out.println("\n---------------------------- DEPOSIT MONEY ---------------------------\n ");
+        System.out.print("Please enter customer PESEL number: ");
+        String pesel = keyboard.nextLine();
+        Customer customer = checkPesel(pesel);
+
+        if (customer != null) {
+            System.out.println("\n                          CUSTOMERS DETAILS                           ");
+            System.out.println(customer);
+            System.out.print("Please enter how much do you want deposit[$]: ");
+            double depositAmount;
+            try {
+                depositAmount = Double.parseDouble(keyboard.nextLine());
+
+            } catch (NumberFormatException e) {
+                System.out.println("\n--- Incorrect deposit amount. ---\n");
+                pressEnter();
+                return;
+            }
+            System.out.print("Choose account and enter its number: ");
+            int number = Integer.parseInt(keyboard.nextLine());
+            Account account = checkAccount(customer, number);
+            if (account != null) {
+                account.deposit(depositAmount);
+                System.out.println("\n                 CUSTOMER DETAILS AFTER OPERATION                 ");
+                System.out.println(customer);
+            }
+        }
+        pressEnter();
+    }
+
+    public static void withdrawMoney() {
+        System.out.println("\n--------------------------- WITHDRAW MONEY ---------------------------\n");
+        System.out.print ("Please enter customer PESEL number: ");
+        String pesel = keyboard.nextLine();
+        Customer customer = checkPesel(pesel);
+
+        if (customer != null) {
+            System.out.println("\n                          CUSTOMERS DETAILS                           ");
+            System.out.println(customer);
+            System.out.print("Please enter how much do you want withdraw[$]: ");
+            double withdrawAmount;
+            try {
+                withdrawAmount = Double.parseDouble(keyboard.nextLine());
+
+            } catch (NumberFormatException e) {
+                System.out.println("\n--- Incorrect withdraw amount. ---\n");
+                pressEnter();
+                return;
+            }
+            System.out.print("Choose account and enter its number: ");
+            int number = Integer.parseInt(keyboard.nextLine());
+            Account account = checkAccount(customer, number);
+            if (account != null) {
+                account.withdraw(withdrawAmount);
+                System.out.println("\n                 CUSTOMER DETAILS AFTER OPERATION                 ");
+                System.out.println(customer);
+            }
+        }
+        pressEnter();
+    }
+
+    public static void showAllAccounts() {
+        System.out.println("\n-------------------- ALL CUSTOMERS AND THEIR ACCOUNTS -------------------\n");
+
+        for (Customer c : customers) {
+            System.out.println(c);
+        }
+        pressEnter();
+    }
+
     public static void changeInterest() {
-        System.out.println("--------------- CHANGING SAVINGS ACCOUNTS RATE OF INTEREST --------------");
-        System.out.println();
+        System.out.println("\n--------------- CHANGING SAVINGS ACCOUNTS RATE OF INTEREST --------------\n");
         System.out.println("Example: enter 0.03 to set up rate on 3%.");
         System.out.println("This operation will change rate of interest for all savings accounts.");
-        System.out.println("Please enter rate of interest:");
+        System.out.print("Please enter rate of interest: ");
 
-        double interest = 0.00;
+        double interest;
         try {
             interest = Double.parseDouble(keyboard.nextLine());
 
             if (interest < 0) {
                 System.out.println();
-                System.out.println("--- Deposit should be 0 or bigger. ---");
+                System.out.println("--- Interest should be 0 or bigger. ---");
                 pressEnter();
                 return;
             }
         } catch (NumberFormatException e) {
             System.out.println();
-            System.out.println("--- Incorrect deposit value. ---");
+            System.out.println("--- Incorrect Interest amount. ---");
             System.out.println();
             pressEnter();
 
@@ -113,93 +191,14 @@ public class MenuActions {
             }
         }
 
-        System.out.println();
-        System.out.println("--- Rate of interest for all savings accounts was changed ---");
-        System.out.println();
+        System.out.println("\n--- Rate of interest for all savings accounts was changed ---\n");
 
         pressEnter();
-    }
-
-    public static void customerDetails() {
-
-        System.out.println("---------------------------- CUSTOMER DETAILS ---------------------------");
-        System.out.println();
-        System.out.println("Please enter customer PESEL number:");
-        String pesel = keyboard.nextLine();
-
-        if (checkPesel(pesel) != null) {
-            Customer customer = checkPesel(pesel);
-            System.out.println(customer);
-        }
-        pressEnter();
-    }
-
-    public static void depositMoney() {
-
-        System.out.println("---------------------------- DEPOSIT MONEY ---------------------------");
-        System.out.println();
-        System.out.println("Please enter customer PESEL number:");
-        String pesel = keyboard.nextLine();
-
-        System.out.println("                          CUSTOMERS DETAILS                           ");
-        Customer customer = checkPesel(pesel);
-        if (!customer.equals(null)) {
-            System.out.println(customer);
-            System.out.println("Choose account and enter proper number below:");
-            int number = Integer.parseInt(keyboard.nextLine());
-            System.out.println("Please enter how much do you want deposit:");
-            Double deposit = Double.parseDouble(keyboard.nextLine());
-            Account account = checkAccount(customer, number);
-
-            if (account.deposit(deposit)) {
-                System.out.println("                 CUSTOMER DETAILS AFTER OPERATION                 ");
-                System.out.println(customer);
-            }
-
-        }
-        pressEnter();
-    }
-
-    public static void withdrawMoney() {
-        System.out.println("--------------------------- WITHDRAW MONEY ---------------------------");
-        System.out.println();
-        System.out.println("Please enter customer PESEL number:");
-        String pesel = keyboard.nextLine();
-
-        System.out.println("                          CUSTOMERS DETAILS                           ");
-        Customer customer = checkPesel(pesel);
-        if (!customer.equals(null)) {
-            System.out.println(customer);
-            System.out.println("To withdraw money choose account and enter number below:");
-            int number = Integer.parseInt(keyboard.nextLine());
-            System.out.println("Please enter how much do you want withdraw:");
-            Double withdrawAmount = Double.parseDouble(keyboard.nextLine());
-            Account account = checkAccount(customer, number);
-
-            if (account.withdraw(withdrawAmount)) {
-                System.out.println("                 CUSTOMER DETAILS AFTER OPERATION                 ");
-                System.out.println(customer);
-            }
-        }
-        pressEnter();
-    }
-
-    public static void showAllAccounts() {
-        System.out.println("-------------------- ALL CUSTOMERS AND THEIR ACCOUNTS -------------------");
-        System.out.println();
-
-        for (Customer c : customers) {
-            System.out.println(c);
-        }
-
-        pressEnter();
-
     }
 
     public static Customer checkPesel(String pesel) {
 
         Customer customer = null;
-
         for (Customer c : customers) {
             if (c.getPesel().equals(pesel)) {
                 customer = c;
@@ -208,30 +207,31 @@ public class MenuActions {
         }
 
         if (customer == null) {
-            System.out.println();
-            System.out.println("--- Person with this PESEL number is not a customer of MKBank. ---");
-            System.out.println();
+            System.out.println("\n--- Person with this PESEL number is not a customer of MKBank. ---\n");
         }
-
         return customer;
     }
 
-    public static Account checkAccount(Customer customer, int number) {
+    public static Account checkAccount(Customer customer, int AccountNumberToCheck) {
 
         Account account = null;
-
-        for (Account a : customer.getAccounts()) {
-            if (a.getNumber() == number) {
-                account = a;
+        for (Account acc : customer.getAccounts()) {
+            if (acc.getAccountNumber() == AccountNumberToCheck) {
+                account = acc;
                 break;
             }
+        }
+        if (account == null) {
+            System.out.println("\n--- This person doesn't own account with this number. ---\n");
         }
         return account;
     }
 
 
+
     public static void pressEnter() {
-        System.out.println("Press Enter and go to Menu");
-        String enter = keyboard.nextLine();
+        System.out.print("Press Enter and go to Menu ");
+        keyboard.nextLine();
+        System.out.println();
     }
 }

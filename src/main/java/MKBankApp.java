@@ -13,8 +13,7 @@ public class MKBankApp {
         Scanner keyboard = new Scanner(System.in);
         int userInput = 0;
 
-        System.out.println("Enter number below to make action:");
-
+        System.out.print("Enter number here: ");
         while (userInput == 0) {
             try {
                 userInput = Integer.parseInt(keyboard.nextLine());
@@ -28,42 +27,21 @@ public class MKBankApp {
         }
 
         switch (userInput) {
-
-            case 1:
-                MenuActions.createNewCustomerAndAccount();
-                break;
-            case 2:
-                MenuActions.createAccount();
-                break;
-            case 3:
-                MenuActions.changeInterest();
-                break;
-            case 4:
-                MenuActions.customerDetails();
-                break;
-            case 5:
-                MenuActions.depositMoney();
-                break;
-            case 6:
-                MenuActions.withdrawMoney();
-                break;
-            case 7:
-                MenuActions.showAllAccounts();
-                break;
-            case 8:
-                System.out.println();
-                System.out.println("Thank you for choosing MK Bank App.");
-                System.out.println("We will be happy to see you soon :)");
-                System.out.println();
-                break;
+            case 1 -> MenuActions.createNewCustomerAndAccount();
+            case 2 -> MenuActions.createAccount();
+            case 3 -> MenuActions.customerDetails();
+            case 4 -> MenuActions.depositMoney();
+            case 5 -> MenuActions.withdrawMoney();
+            case 6 -> MenuActions.showAllAccounts();
+            case 7 -> MenuActions.changeInterest();
+            case 8 -> {
+                System.out.println("\nThank you for choosing MK Bank App.");
+                System.out.println("We will be happy to see you soon :) \n");
+            }
         }
-
         if (userInput != 8) {
-
             Menu.printMenu();
             chooseOption();
         }
-
-
     }
 }

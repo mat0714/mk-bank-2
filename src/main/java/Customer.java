@@ -1,13 +1,12 @@
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class Customer {
 
     private String name;
     private String surName;
-    private String pesel;
-    private List<Account> accounts;
+    private final String pesel;
+    private final List<Account> accounts;
 
     public Customer(String name, String surName, String pesel) {
         this.name = name;
@@ -31,9 +30,9 @@ public class Customer {
     @Override
     public String toString() {
         return "Customer: " +
-                "name: " + name +
-                ", surName: " + surName +
-                ", pesel: " + pesel +
-                ", accounts: "+ accounts + "\n";
+                "Name: " + name +
+                ", Surname: " + surName +
+                ", PESEL: " + pesel +
+                ", Accounts: "+ accounts + "\n";
     }
 }

@@ -1,17 +1,17 @@
 public class Checking extends Account {
 
-    public Checking(double balance) {
+    public Checking(double initialDeposit) {
         super();
-        this.setAccountType("checking");
-        this.deposit(balance);
+        this.setType("checking");
+        this.deposit(initialDeposit);
     }
 
     @Override
     public String toString() {
         return "\n\t\t  " +
-                "Number: " + this.getAccountNumber() +
-                ", Type: " + this.getAccountType() +
+                "Number: " + this.getNumber() +
+                ", Type: " + this.getType() +
                 ", Balance: " + this.getBalance() + " $" +
-                ", Interest: " + this.getInterest() + " %";
+                ", Interest: " + this.getInterestRate() + " %";
     }
 }

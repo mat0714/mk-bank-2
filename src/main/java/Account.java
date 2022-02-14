@@ -1,10 +1,10 @@
 public class Account {
 
-    private double balance = 0.00;
-    private String accountType;
-    private double interest = 0.00;
-    private static int startingNumber = 500;
+    private String type;
+    private double balance;
+    private double InterestRate;
     private final int number;
+    private static int startingNumber = 500;
 
     public Account() {
         this.number = startingNumber++;
@@ -14,39 +14,31 @@ public class Account {
         return balance;
     }
 
-    public String getAccountType() {
-        return accountType;
+    public String getType() {
+        return type;
     }
 
-    public int getAccountNumber() {
+    public int getNumber() {
         return number;
     }
 
-    public double getInterest() {
-        return interest;
+    public double getInterestRate() {
+        return InterestRate;
     }
 
-    public void setAccountType(String accountType) {
-        this.accountType = accountType;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public void setInterest(double interest) {
-        this.interest = interest;
+    public void setInterestRate(double interestRate) {
+        this.InterestRate = interestRate;
     }
 
-    public void deposit(double DepositValue) {
-        if (DepositValue < 0) {
-            System.out.println("\n--- Value should be greater than 0. ---");
-            return;
-        }
-        this.balance += DepositValue;
+    public void deposit(double DepositAmount) {
+        this.balance += DepositAmount;
     }
 
-    public void withdraw(double withdrawValue) {
-        if (withdrawValue > balance) {
-            System.out.println("\n--- Not enough money on account. ---");
-            return;
-        }
-        balance -= withdrawValue;
+    public void withdraw(double withdrawAmount) {
+        balance -= withdrawAmount;
     }
 }

@@ -1,18 +1,18 @@
 public class Savings extends Account {
 
-    public Savings(double balance) {
+    public Savings(double initialDeposit) {
         super();
-        this.setAccountType("savings");
-        this.deposit(balance);
-        this.setInterest(0.05);
+        this.setType("savings");
+        this.deposit(initialDeposit);
+        this.setInterestRate(0.05);
     }
 
     @Override
     public String toString() {
         return "\n\t\t  " +
-                "Number: " + this.getAccountNumber() +
-                ", Type: " + this.getAccountType() +
+                "Number: " + this.getNumber() +
+                ", Type: " + this.getType() +
                 ", Balance: " + this.getBalance() + " $" +
-                ", Interest: " + this.getInterest() + " %" ;
+                ", Interest: " + this.getInterestRate() + " %" ;
     }
 }

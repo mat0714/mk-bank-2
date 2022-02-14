@@ -5,17 +5,17 @@ public class Customer {
 
     private String name;
     private String surName;
-    private final String pesel;
+    private final int pesel;
     private final List<Account> accounts;
 
-    public Customer(String name, String surName, String pesel) {
+    public Customer(String name, String surName, int pesel) {
         this.name = name;
         this.surName = surName;
         this.pesel = pesel;
         this.accounts = new ArrayList<>();
     }
 
-    public String getPesel() {
+    public int getPesel() {
         return pesel;
     }
 
@@ -23,7 +23,7 @@ public class Customer {
         this.accounts.add(account);
     }
 
-    public List<Account> getAccounts() {
+    public List<Account> getAccountsList() {
         return accounts;
     }
 

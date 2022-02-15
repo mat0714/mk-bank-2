@@ -39,6 +39,11 @@ public class Account {
     }
 
     public void withdraw(double withdrawAmount) {
-        balance -= withdrawAmount;
+        if (withdrawAmount > balance) {
+            System.out.println("\n--- There are not enough funds on that account. ---");
+        }
+        else {
+            balance -= withdrawAmount;
+        }
     }
 }

@@ -1,9 +1,10 @@
 import java.util.Scanner;
 
 public class UserInput {
+
     private static final Scanner keyboard = new Scanner(System.in);
 
-    public static String verifyText() {
+    public static String validateText() {
         String text = "";
         while (text.equals("")) {
             text = keyboard.nextLine();
@@ -15,7 +16,7 @@ public class UserInput {
         return text;
     }
 
-    public static int verifyPesel() {
+    public static int validatePesel() {
         int pesel = 0;
         while (pesel == 0) {
             try {
@@ -27,7 +28,7 @@ public class UserInput {
         return pesel;
     }
 
-    public static double verifyMoneyAmount() {
+    public static double validateMoneyAmount() {
         double moneyAmount = 0;
         while (moneyAmount == 0) {
             try {
@@ -43,7 +44,7 @@ public class UserInput {
         return moneyAmount;
     }
 
-    public static double verifyInterest() {
+    public static double validateInterest() {
         double interest = -1;
         while (interest == -1) {
             try {
@@ -59,33 +60,33 @@ public class UserInput {
         return interest;
     }
 
-    public static int verifyAccountTypeChoice() {
-        int userChoice = 0;
+    public static int validateAccountType() {
+        int accountType = 0;
         int checkingAccount = 1;
         int savingsAccount = 2;
-        while (userChoice == 0) {
+        while (accountType == 0) {
             try {
-                userChoice = Integer.parseInt(keyboard.nextLine());
-                if (!(userChoice == checkingAccount  || userChoice == savingsAccount)) {
-                    userChoice = 0;
+                accountType = Integer.parseInt(keyboard.nextLine());
+                if (!(accountType == checkingAccount  || accountType == savingsAccount)) {
+                    accountType = 0;
                     System.out.println("\n--- Please enter 1 for checking account or 2 for savings account. ---\n");
                 }
             } catch (NumberFormatException e) {
                 System.out.println("\n--- Please enter 1 for checking account or 2 for savings account. ---\n");
             }
         }
-        return userChoice;
+        return accountType;
     }
 
-    public static int verifyAccountNumberChoice() {
-        int pesel = 0;
-        while (pesel == 0) {
+    public static int validateAccountNumber() {
+        int AccountNumber = 0;
+        while (AccountNumber == 0) {
             try {
-                pesel = Integer.parseInt(keyboard.nextLine());
+                AccountNumber = Integer.parseInt(keyboard.nextLine());
             } catch (NumberFormatException e) {
                 System.out.println("\n--- Please enter correct account number. ---\n");
             }
         }
-        return pesel;
+        return AccountNumber;
     }
 }

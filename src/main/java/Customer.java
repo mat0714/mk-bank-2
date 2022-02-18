@@ -19,12 +19,12 @@ public class Customer {
         return pesel;
     }
 
-    public void addAccount(Account account) {
-        this.accounts.add(account);
-    }
-
     public List<Account> getAccountsList() {
         return accounts;
+    }
+
+    public void addAccount(Account account) {
+        this.accounts.add(account);
     }
 
     @Override

@@ -19,32 +19,15 @@ public class Menu {
         System.out.println("3) Show single customer profile(with accounts).");
         System.out.println("4) Deposit money.");
         System.out.println("5) Withdraw money.");
-        System.out.println("6) Show all customers profiles( with their accounts).");
+        System.out.println("6) Show all customers profiles(with accounts).");
         System.out.println("7) Change all savings accounts rate of interest.");
         System.out.println("8) Quit this app.");
         System.out.println("=========================================================================");
         System.out.print("\nEnter number here: ");
     }
 
-    public int getUserInput() {
-        Scanner keyboard = new Scanner(System.in);
-        int userInput = 0;
-        while (userInput < 1) {
-            try {
-                userInput = Integer.parseInt(keyboard.nextLine());
-                if (userInput < 1 || userInput > 8) {
-                    userInput = 0;
-                    System.out.println("\n--- To choose proper option type number between 1 to 8 ---\n");
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("\n--- To choose proper option type number between 1 to 8 ---\n");
-            }
-        }
-        return userInput;
-    }
-
-    public void chooseOption(int userInput) {
-        switch (userInput) {
+    public void chooseOption(int userChoice) {
+        switch (userChoice) {
             case 1 -> MenuAction.createCustomerProfile();
             case 2 -> MenuAction.createAccount();
             case 3 -> MenuAction.showSingleProfile();
@@ -54,6 +37,30 @@ public class Menu {
             case 7 -> MenuAction.changeSavingsInterestRate();
             case 8 -> MenuAction.quitApp();
         }
+    }
+
+    public int getUserChoice() {
+        Scanner keyboard = new Scanner(System.in);
+        int userChoice = 0;
+        while (userChoice < 1) {
+            try {
+                userChoice = Integer.parseInt(keyboard.nextLine());
+                if (userChoice < 1 || userChoice > 8) {
+                    userChoice = 0;
+                    System.out.println("\n--- To choose proper option enter number between 1 to 8 ---\n");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("\n--- To choose proper option enter number between 1 to 8 ---\n");
+            }
+        }
+        return userChoice;
+    }
+
+    public static void goToMenu() {
+        Scanner keyboard = new Scanner(System.in);
+        System.out.print("Press Enter and go to Menu ");
+        keyboard.nextLine();
+        System.out.println();
     }
 }
 

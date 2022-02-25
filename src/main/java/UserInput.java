@@ -45,13 +45,13 @@ public class UserInput {
     }
 
     public static double validateInterest() {
-        double interest = -1;
-        while (interest == -1) {
+        double interest = -1.0;
+        while (interest == -1.0) {
             try {
                 interest = Double.parseDouble(keyboard.nextLine());
-                if (interest < 0) {
+                if (interest < 0.0) {
                     System.out.println("\n--- Value should be 0 or greater. ---\n");
-                    interest = -1;
+                    interest = -1.0;
                 }
             } catch (NumberFormatException e) {
                 System.out.println("\n--- Please enter correct value. ---\n");

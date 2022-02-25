@@ -4,9 +4,10 @@ public class Menu {
 
     public void printWelcomeMassage() {
         System.out.println("+----------------------------------------------------------------------+");
+        System.out.println("|                                                                      |");
         System.out.println("|                          WELCOME in MKBANK                           |");
-        System.out.println("|                     PLACE WHERE DREAMS COME TRUE                     |");
-        System.out.println("|                   CREATE AS MUCH MONEY AS YOU WANT                   |");
+        System.out.println("|                    THE BEST PLACE FOR YOUR MONEY                     |");
+        System.out.println("|                                                                      |");
         System.out.println("+----------------------------------------------------------------------+");
         System.out.println();
     }

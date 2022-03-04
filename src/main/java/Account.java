@@ -1,13 +1,18 @@
 public class Account {
 
-    private String type;
-    private double balance;
-    private double InterestRate;
     private final int number;
-    private static int startingNumber = 500;
+    private String type;
+    private final double balance;
+    private final double InterestRate;
 
-    public Account() {
-        this.number = startingNumber++;
+    public Account(int number, double balance, double interestRate) {
+        this.number = number;
+        this.balance = balance;
+        this.InterestRate = interestRate;
+    }
+
+    public int getNumber() {
+        return number;
     }
 
     public String getType() {
@@ -26,24 +31,12 @@ public class Account {
         return InterestRate;
     }
 
-    public void setInterestRate(double interestRate) {
-        this.InterestRate = interestRate;
-    }
-
-    public int getNumber() {
-        return number;
-    }
-
-    public void deposit(double DepositAmount) {
-        this.balance += DepositAmount;
-    }
-
-    public void withdraw(double withdrawAmount) {
-        if (withdrawAmount > balance) {
-            System.out.println("\n--- There are not enough funds on that account. ---");
-        }
-        else {
-            balance -= withdrawAmount;
-        }
+    @Override
+    public String toString() {
+        return "\n\t\t  " +
+                "Number: " + this.getNumber() +
+                ", Type: " + this.getType() +
+                ", Balance: " + this.getBalance() + " $" +
+                ", Interest: " + this.getInterestRate() + " %";
     }
 }

@@ -20,7 +20,7 @@ public class Menu {
         System.out.println("3) Show single customer profile(with accounts).");
         System.out.println("4) Deposit money.");
         System.out.println("5) Withdraw money.");
-        System.out.println("6) Show all customers profiles(with accounts).");
+        System.out.println("6) Show all customer profiles(with accounts).");
         System.out.println("7) Change all savings accounts rate of interest.");
         System.out.println("8) Quit this app.");
         System.out.println("=========================================================================");

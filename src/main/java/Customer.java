@@ -1,37 +1,34 @@
-import java.util.ArrayList;
 import java.util.List;
 
 public class Customer {
 
-    private String name;
-    private String surName;
+    private final int id;
+    private final String name;
+    private final String surname;
     private final int pesel;
-    private final List<Account> accounts;
+    private  final List<Account> accounts;
 
-    public Customer(String name, String surName, int pesel) {
+    public Customer(int id, String name, String surname, int pesel, List<Account> accounts) {
+        this.id = id;
         this.name = name;
-        this.surName = surName;
+        this.surname = surname;
         this.pesel = pesel;
-        this.accounts = new ArrayList<>();
+        this.accounts = accounts;
     }
 
-    public int getPesel() {
-        return pesel;
+    public int getId() {
+        return id;
     }
 
     public List<Account> getAccountsList() {
         return accounts;
     }
 
-    public void addAccount(Account account) {
-        this.accounts.add(account);
-    }
-
     @Override
     public String toString() {
         return "Customer: " +
                 "Name: " + name +
-                ", Surname: " + surName +
+                ", Surname: " + surname +
                 ", PESEL: " + pesel +
                 ", Accounts: "+ accounts + "\n";
     }

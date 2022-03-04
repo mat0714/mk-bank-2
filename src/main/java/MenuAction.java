@@ -1,5 +1,3 @@
-import java.util.List;
-
 public class MenuAction {
 
     public static void createCustomerProfile() {
@@ -10,21 +8,17 @@ public class MenuAction {
         String surName = UserInput.validateText();
         System.out.print("Please enter customer PESEL number: ");
         int pesel = UserInput.validatePesel();
-        Customer customer = new Customer(name, surName, pesel);
-        CustomerManager.add(customer);
-        System.out.println("\n--- Customer profile was successfully created. ---\n");
-        System.out.println("                 CUSTOMER DETAILS AFTER OPERATION                 ");
-        System.out.println(customer);
+        int customerId = CustomerManager.addCustomer(name, surName, pesel);
+        CustomerManager.showCustomerDetails(customerId);
         Menu.goToMenu();
     }
 
     public static void createAccount() {
         System.out.println("\n---------------------- CREATING ACCOUNT FOR CUSTOMER --------------------\n");
-        System.out.print("Please enter customer PESEL number: ");
-        int pesel = UserInput.validatePesel();
-        Customer customer = CustomerManager.getCustomer(pesel);
+        System.out.print("Please enter customer ID number: ");
+        int customerId = UserInput.validateCustomerId();
+        Customer customer = CustomerManager.getCustomer(customerId);
         if (customer != null) {
-            System.out.println("\n--- Customer was found. You can create account. ---\n");
             System.out.print("Please enter deposit amount[$]: ");
             double depositAmount = UserInput.validateMoneyAmount();
             System.out.print(
@@ -35,12 +29,12 @@ public class MenuAction {
             int accountType = UserInput.validateAccountType();
             switch (accountType) {
                 case 1 -> {
-                    customer.addAccount(new Checking(depositAmount));
-                    System.out.println("\n--- New checking account was successfully created. ---\n");
+                    DBConnector.addCheckingAccount(customerId, depositAmount);
+                    CustomerManager.showCustomerDetails(customerId);
                 }
                 case 2 -> {
-                    customer.addAccount(new Savings(depositAmount));
-                    System.out.println("\n--- New savings account was successfully created. ---\n");
+                    DBConnector.addSavingsAccount(customerId, depositAmount);
+                    CustomerManager.showCustomerDetails(customerId);
                 }
             }
         }
@@ -49,32 +43,27 @@ public class MenuAction {
 
     public static void showSingleProfile() {
         System.out.println("\n---------------------------- CUSTOMER DETAILS ---------------------------\n");
-        System.out.print("Please enter customer PESEL number: ");
-        int pesel = UserInput.validatePesel();
-        Customer customer = CustomerManager.getCustomer(pesel);
-        if (customer != null) {
-            System.out.println("\n" + customer);
-        }
+        System.out.print("Please enter customer ID number: ");
+        int customerID = UserInput.validateCustomerId();
+        CustomerManager.showCustomerDetails(customerID);
         Menu.goToMenu();
     }
 
     public static void depositMoney() {
         System.out.println("\n---------------------------- DEPOSIT MONEY ---------------------------\n ");
-        System.out.print("Please enter customer PESEL number: ");
-        int pesel = UserInput.validatePesel();
-        Customer customer = CustomerManager.getCustomer(pesel);
+        System.out.print("Please enter customer ID number: ");
+        int customerID = UserInput.validateCustomerId();
+        Customer customer = CustomerManager.getCustomer(customerID);
         if (customer != null) {
-            System.out.println("\n                          CUSTOMERS DETAILS                           ");
-            System.out.println(customer);
+            CustomerManager.showCustomerDetails(customerID);
             System.out.print("Please enter deposit amount[$]: ");
             double depositAmount = UserInput.validateMoneyAmount();
             System.out.print("Choose account and enter its number: ");
             int accountNumber = UserInput.validateAccountNumber();
-            Account account = CustomerManager.getCustomerAccount(customer, accountNumber);
+            Account account = CustomerManager.getAccount(customerID, accountNumber);
             if (account != null) {
-                account.deposit(depositAmount);
-                System.out.println("\n                 CUSTOMER DETAILS AFTER OPERATION                 ");
-                System.out.println(customer);
+                CustomerManager.deposit(account, depositAmount);
+                CustomerManager.showCustomerDetails(customerID);
             }
         }
         Menu.goToMenu();
@@ -82,9 +71,9 @@ public class MenuAction {
 
     public static void withdrawMoney() {
         System.out.println("\n--------------------------- WITHDRAW MONEY ---------------------------\n");
-        System.out.print("Please enter customer PESEL number: ");
-        int pesel = UserInput.validatePesel();
-        Customer customer = CustomerManager.getCustomer(pesel);
+        System.out.print("Please enter customer ID number: ");
+        int customerID = UserInput.validateCustomerId();
+        Customer customer = CustomerManager.getCustomer(customerID);
         if (customer != null) {
             System.out.println("\n                          CUSTOMERS DETAILS                           ");
             System.out.println(customer);
@@ -92,11 +81,10 @@ public class MenuAction {
             double withdrawAmount = UserInput.validateMoneyAmount();
             System.out.print("Choose account and enter its number: ");
             int accountNumber = UserInput.validateAccountNumber();
-            Account account = CustomerManager.getCustomerAccount(customer, accountNumber);
+            Account account = CustomerManager.getAccount(customerID, accountNumber);
             if (account != null) {
-                account.withdraw(withdrawAmount);
-                System.out.println("\n                 CUSTOMER DETAILS AFTER OPERATION                 ");
-                System.out.println(customer);
+                CustomerManager.withdraw(account, withdrawAmount);
+                CustomerManager.showCustomerDetails(customerID);
             }
         }
         Menu.goToMenu();
@@ -104,7 +92,7 @@ public class MenuAction {
 
     public static void showAllProfiles() {
         System.out.println("\n-------------------- ALL CUSTOMERS AND THEIR ACCOUNTS -------------------\n");
-        for (Customer customer : CustomerManager.getAllCustomers()) {
+        for (Customer customer : DBConnector.getAllCustomers()) {
             System.out.println(customer);
         }
         Menu.goToMenu();
@@ -117,15 +105,13 @@ public class MenuAction {
                 "This operation will change rate of interest for all existing savings accounts.\n" +
                 "Please enter rate of interest: ");
         double interestValue = UserInput.validateInterest();
-        for (Customer customer : CustomerManager.getAllCustomers()) {
-            List<Account> accounts = customer.getAccountsList();
-            for (Account account : accounts) {
-                if (account.getType().equals("savings")) {
-                    account.setInterestRate(interestValue);
-                }
-            }
+        boolean changeInterestSucceed = DBConnector.changeSavingsInterest(interestValue);
+        if (changeInterestSucceed) {
+            System.out.println("\n--- Rate of interest for all savings accounts was changed ---\n");
         }
-        System.out.println("\n--- Rate of interest for all savings accounts was changed ---\n");
+        else {
+            System.out.println("\n--- Rate of interest wasn't changed ---\n");
+        }
         Menu.goToMenu();
     }
 

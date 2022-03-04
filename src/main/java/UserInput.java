@@ -28,6 +28,18 @@ public class UserInput {
         return pesel;
     }
 
+    public static int validateCustomerId() {
+        int customerId = 0;
+        while (customerId == 0) {
+            try {
+                customerId = Integer.parseInt(keyboard.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("\n--- Please enter correct ID number. ---\n");
+            }
+        }
+        return customerId;
+    }
+
     public static double validateMoneyAmount() {
         double moneyAmount = 0;
         while (moneyAmount == 0) {

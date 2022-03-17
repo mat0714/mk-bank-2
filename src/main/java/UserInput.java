@@ -72,20 +72,23 @@ public class UserInput {
         return interest;
     }
 
-    public static int validateAccountType() {
-        int accountType = 0;
-        int checkingAccount = 1;
-        int savingsAccount = 2;
-        while (accountType == 0) {
+    public static AccountType validateAccountType() {
+        AccountType accountType = AccountType.undefined;
+        int userChoice = 0;
+        while (userChoice == 0) {
             try {
-                accountType = Integer.parseInt(keyboard.nextLine());
-                if (!(accountType == checkingAccount  || accountType == savingsAccount)) {
-                    accountType = 0;
+                userChoice = Integer.parseInt(keyboard.nextLine());
+                if (!(userChoice == 1  || userChoice == 2)) {
+                    userChoice = 0;
                     System.out.println("\n--- Please enter 1 for checking account or 2 for savings account. ---\n");
                 }
             } catch (NumberFormatException e) {
                 System.out.println("\n--- Please enter 1 for checking account or 2 for savings account. ---\n");
             }
+        }
+        switch (userChoice) {
+            case 1 -> accountType = AccountType.checking;
+            case 2 -> accountType = AccountType.savings;
         }
         return accountType;
     }

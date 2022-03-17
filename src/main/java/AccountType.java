@@ -1,4 +1,5 @@
 public enum AccountType {
     checking,
-    savings
+    savings,
+    undefined
 }

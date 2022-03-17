@@ -6,7 +6,7 @@ public class Customer {
     private final String name;
     private final String surname;
     private final int pesel;
-    private  final List<Account> accounts;
+    private final List<Account> accounts;
 
     public Customer(int id, String name, String surname, int pesel, List<Account> accounts) {
         this.id = id;
@@ -16,18 +16,14 @@ public class Customer {
         this.accounts = accounts;
     }
 
-    public int getId() {
-        return id;
-    }
-
     public List<Account> getAccountsList() {
         return accounts;
     }
 
     @Override
     public String toString() {
-        return "Customer: " +
-                "Name: " + name +
+        return "ID: " + id +
+                ", Name: " + name +
                 ", Surname: " + surname +
                 ", PESEL: " + pesel +
                 ", Accounts: "+ accounts + "\n";

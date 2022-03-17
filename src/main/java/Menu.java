@@ -29,7 +29,7 @@ public class Menu {
 
     public void chooseOption(int userChoice) {
         switch (userChoice) {
-            case 1 -> MenuAction.createCustomerProfile();
+            case 1 -> MenuAction.createProfile();
             case 2 -> MenuAction.createAccount();
             case 3 -> MenuAction.showSingleProfile();
             case 4 -> MenuAction.depositMoney();

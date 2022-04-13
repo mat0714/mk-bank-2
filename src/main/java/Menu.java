@@ -28,16 +28,16 @@ public class Menu {
     }
 
     public void chooseOption(int userChoice) {
-        switch (userChoice) {
-            case 1 -> MenuAction.createProfile();
-            case 2 -> MenuAction.createAccount();
-            case 3 -> MenuAction.showSingleProfile();
-            case 4 -> MenuAction.depositMoney();
-            case 5 -> MenuAction.withdrawMoney();
-            case 6 -> MenuAction.showAllProfiles();
-            case 7 -> MenuAction.changeSavingsInterestRate();
-            case 8 -> MenuAction.quitApp();
-        }
+//        switch (userChoice) {
+//            case 1 -> MenuAction.createProfile();
+//            case 2 -> MenuAction.createAccount();
+//            case 3 -> MenuAction.showSingleProfile();
+//            case 4 -> MenuAction.depositMoney();
+//            case 5 -> MenuAction.withdrawMoney();
+//            case 6 -> MenuAction.showAllProfiles();
+//            case 7 -> MenuAction.changeSavingsInterestRate();
+//            case 8 -> MenuAction.quitApp();
+//        }
     }
 
     public int getUserChoice() {

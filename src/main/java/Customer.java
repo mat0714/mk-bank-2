@@ -1,7 +1,15 @@
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
 import java.util.List;
 
+@Entity
 public class Customer {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private final int id;
     private final String name;
     private final String surname;

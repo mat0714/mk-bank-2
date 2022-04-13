@@ -10,4 +10,4 @@ Using this application you can:
 - show all customers profiles(with their accounts)
 - change all savings accounts rate of interest
 
-This application uses JDBC and data is stored in MySQL Database.
+This application uses Hibernate and data is stored in MySQL Database.

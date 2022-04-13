@@ -10,4 +10,4 @@ Using this application you can:
 - show all customers profiles(with their accounts)
 - change all savings accounts rate of interest
 
-All information about clients and accounts is stored only when program is running(Storing in ArrayLists).
+This application uses JDBC and data is stored in MySQL Database.

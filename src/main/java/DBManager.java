@@ -1,24 +1,18 @@
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.*;
 
 public class DBManager {
 
-//    private static final String URL = "jdbc:mysql://localhost:3306/mkbank";
-//    private static final String USER = "user";
-//    private static final String PASSWORD = "password123!";
-//
-//    private static Connection connect() {
-//        Connection connection = null;
-//        try {
-//            connection = DriverManager.getConnection(URL, USER, PASSWORD);
-//        } catch (SQLException e) {
-//            System.out.println("Problem with database. Please contact with administrator.");
-//            e.printStackTrace();
-//        }
-//        return connection;
-//    }
-//
+    private EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(
+            "PersistenceUnit");
+    private EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+    public void addCustomer(Customer customer) {
+        EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
+        entityManager.persist(customer);
+        transaction.commit();
+    }
+
 //    public static int addCustomer(String name, String surname, int pesel) {
 //        int customerId = 0;
 //        try (Connection connection = connect();

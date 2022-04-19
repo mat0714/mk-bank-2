@@ -1,17 +1,20 @@
 public class MenuAction {
 
-//    public static void createProfile() {
-//        System.out.println("\n--------------------- CREATING NEW CUSTOMER PROFILE ---------------------\n");
-//        System.out.print("Please enter customer name: ");
-//        String name = UserInput.validateText();
-//        System.out.print("Please enter customer surname: ");
-//        String surname = UserInput.validateText();
-//        System.out.print("Please enter customer PESEL number: ");
-//        int pesel = UserInput.validatePesel();
-//        int customerId = ProfileManager.addCustomer(name, surname, pesel);
+    ProfileManager profileManager = new ProfileManager();
+
+    public void createProfile() {
+        System.out.println("\n--------------------- CREATING NEW CUSTOMER PROFILE ---------------------\n");
+        System.out.print("Please enter customer name: ");
+        String name = UserInput.validateText();
+        System.out.print("Please enter customer surname: ");
+        String surname = UserInput.validateText();
+        System.out.print("Please enter customer PESEL number: ");
+        int pesel = UserInput.validatePesel();
+        Customer customer = new Customer(0, name, surname, pesel, null);
+        profileManager.addCustomer(customer);
 //        ProfileManager.showCustomerDetails(customerId);
-//        Menu.goToMenu();
-//    }
+        Menu.goToMenu();
+    }
 //
 //    public static void createAccount() {
 //        System.out.println("\n---------------------- CREATING ACCOUNT FOR CUSTOMER --------------------\n");

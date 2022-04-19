@@ -1,20 +1,21 @@
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@Table(name = "customers")
 public class Customer {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private final int id;
-    private final String name;
-    private final String surname;
-    private final int pesel;
-    private final List<Account> accounts;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    private String name;
+    private String surname;
+    private int pesel;
+    @OneToMany
+    private List<Account> accounts;
+
+    public Customer() {
+    }
 
     public Customer(int id, String name, String surname, int pesel, List<Account> accounts) {
         this.id = id;
@@ -24,8 +25,44 @@ public class Customer {
         this.accounts = accounts;
     }
 
-    public List<Account> getAccountsList() {
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public int getPesel() {
+        return pesel;
+    }
+
+    public void setPesel(int pesel) {
+        this.pesel = pesel;
+    }
+
+    public List<Account> getAccounts() {
         return accounts;
+    }
+
+    public void setAccounts(List<Account> accounts) {
+        this.accounts = accounts;
     }
 
     @Override

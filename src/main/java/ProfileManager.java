@@ -1,14 +1,13 @@
 import java.util.List;
 
 public class ProfileManager {
-//
-//    public static int addCustomer(String name, String surname, int pesel) {
-//        int customerId = DBManager.addCustomer(name, surname, pesel);
-//        if (customerId > 0) {
-//            System.out.println("\n--- Customer profile was successfully created. ---");
-//        }
-//        return customerId;
-//    }
+
+    DBManager dbManager = new DBManager();
+
+    public void addCustomer(Customer customer) {
+        dbManager.addCustomer(customer);
+        System.out.println("\n--- Customer profile was successfully created. ---");
+    }
 //
 //    public static Customer getCustomer(int customerId) {
 //        Customer customer = DBManager.getCustomer(customerId);

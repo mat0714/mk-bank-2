@@ -1,14 +1,27 @@
-public class Account {
+import javax.persistence.*;
 
-    private final int number;
+@Entity
+@Table(name = "accounts")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@SecondaryTable(name = "interest_rates", pkJoinColumns = @PrimaryKeyJoinColumn(name = "type"))
+public abstract class Account {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int number;
     private String type;
-    private final double balance;
-    private final double InterestRate;
+    private double balance;
+    @Column(table = "interest_rates")
+    @JoinColumn(name = "type")
+    private double interestRate;
+
+    public Account() {
+    }
 
     public Account(int number, double balance, double interestRate) {
         this.number = number;
         this.balance = balance;
-        this.InterestRate = interestRate;
+        this.interestRate = interestRate;
     }
 
     public int getNumber() {
@@ -28,7 +41,7 @@ public class Account {
     }
 
     public double getInterestRate() {
-        return InterestRate;
+        return interestRate;
     }
 
     @Override

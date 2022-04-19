@@ -1,3 +1,6 @@
+import javax.persistence.Entity;
+
+@Entity
 public class Savings extends Account {
 
     public Savings(int number, double balance, double interestRate) {

@@ -1,3 +1,6 @@
+import javax.persistence.Entity;
+
+@Entity
 public class Checking extends Account {
 
     public Checking(int number, double balance, double interestRate) {

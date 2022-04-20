@@ -32,7 +32,7 @@ public class Menu {
     public void chooseOption(int userChoice) {
         switch (userChoice) {
             case 1 -> menuAction.createProfile();
-//            case 2 -> enuAction.createAccount();
+            case 2 -> menuAction.createAccount();
 //            case 3 -> MenuAction.showSingleProfile();
 //            case 4 -> MenuAction.depositMoney();
 //            case 5 -> MenuAction.withdrawMoney();

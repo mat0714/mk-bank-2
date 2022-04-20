@@ -13,6 +13,18 @@ public class DBManager {
         transaction.commit();
     }
 
+    public Customer getCustomer(int customerId) {
+        Customer customer = entityManager.find(Customer.class, customerId);
+        return customer;
+    }
+
+    public void addChecking(Customer customer, Checking checking) {
+        EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
+        entityManager.persist(customer);
+        transaction.commit();
+    }
+
 //    public static int addCustomer(String name, String surname, int pesel) {
 //        int customerId = 0;
 //        try (Connection connection = connect();
@@ -29,7 +41,7 @@ public class DBManager {
 //                }
 //            }
 //        } catch (SQLException e) {
-//            System.out.println("--- Problem with with adding a customer. Please contact with administrator. ---");
+//            System.out.println("--- Problem with adding a customer. Please contact with administrator. ---");
 //            e.printStackTrace();
 //        }
 //        return customerId;

@@ -4,11 +4,12 @@ import javax.persistence.*;
 @Table(name = "accounts")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @SecondaryTable(name = "interest_rates", pkJoinColumns = @PrimaryKeyJoinColumn(name = "type"))
-public abstract class Account {
+public class Account {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int number;
+    @Transient
     private String type;
     private double balance;
     @Column(table = "interest_rates")

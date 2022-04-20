@@ -12,29 +12,29 @@ public class MenuAction {
         int pesel = UserInput.validatePesel();
         Customer customer = new Customer(0, name, surname, pesel, null);
         profileManager.addCustomer(customer);
-//        ProfileManager.showCustomerDetails(customerId);
+        profileManager.showCustomerDetails(customer.getId());
         Menu.goToMenu();
     }
-//
-//    public static void createAccount() {
-//        System.out.println("\n---------------------- CREATING ACCOUNT FOR CUSTOMER --------------------\n");
-//        System.out.print("Please enter customer ID number: ");
-//        int customerId = UserInput.validateCustomerId();
-//        Customer customer = ProfileManager.getCustomer(customerId);
-//        if (customer != null) {
-//            System.out.print("Please enter deposit amount[$]: ");
-//            double depositAmount = UserInput.validateMoneyAmount();
-//            System.out.print(
-//                    "Please choose type of account: \n" +
-//                    "1) Create checking account. \n" +
-//                    "2) Create savings account. \n" +
-//                    "Enter number here: ");
-//            AccountType accountType = UserInput.validateAccountType();
-//            DBManager.addAccount(customerId, accountType, depositAmount);
+
+    public void createAccount() {
+        System.out.println("\n---------------------- CREATING ACCOUNT FOR CUSTOMER --------------------\n");
+        System.out.print("Please enter customer ID number: ");
+        int customerId = UserInput.validateCustomerId();
+        Customer customer = profileManager.getCustomer(customerId);
+        if (customer != null) {
+            System.out.print("Please enter deposit amount[$]: ");
+            double depositAmount = UserInput.validateMoneyAmount();
+            System.out.print(
+                    "Please choose type of account: \n" +
+                    "1) Create checking account. \n" +
+                    "2) Create savings account. \n" +
+                    "Enter number here: ");
+            AccountType accountType = UserInput.validateAccountType();
+            profileManager.addAccount(customerId, accountType, depositAmount);
 //            ProfileManager.showCustomerDetails(customerId);
-//        }
-//        Menu.goToMenu();
-//    }
+        }
+        Menu.goToMenu();
+    }
 //
 //    public static void showSingleProfile() {
 //        System.out.println("\n---------------------------- CUSTOMER DETAILS ---------------------------\n");

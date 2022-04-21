@@ -1,4 +1,5 @@
 import javax.persistence.*;
+import java.util.List;
 
 public class DBManager {
 
@@ -18,10 +19,25 @@ public class DBManager {
         return customer;
     }
 
-    public void addChecking(Customer customer, Checking checking) {
+    public void addAccount(int customerId, AccountType accountType, double depositAmount) {
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
-        entityManager.persist(customer);
+        Customer customer = getCustomer(customerId);
+        List<Account> accounts = customer.getAccounts();
+        switch (accountType) {
+            case checking -> {
+                Checking checking = new Checking(0, depositAmount, 0.0);
+                accounts.add(checking);
+            }
+            case savings -> {
+                Savings savings = new Savings(0, depositAmount, 0.05);
+                accounts.add(savings);
+            }
+        }
+
+
+
+
         transaction.commit();
     }
 

@@ -3,17 +3,13 @@ import javax.persistence.*;
 @Entity
 @Table(name = "accounts")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@SecondaryTable(name = "interest_rates", pkJoinColumns = @PrimaryKeyJoinColumn(name = "type"))
 public class Account {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int number;
-    @Transient
     private String type;
     private double balance;
-    @Column(table = "interest_rates")
-    @JoinColumn(name = "type")
     private double interestRate;
 
     public Account() {

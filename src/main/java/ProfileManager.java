@@ -26,14 +26,6 @@ public class ProfileManager {
         }
     }
 
-    public void addAccount(int customerId, AccountType accountType, double depositAmount) {
-        ProfileManager profileManager = new ProfileManager();
-        Checking checking = new Checking(1000, depositAmount, 0.05);
-        Customer customer = profileManager.getCustomer(customerId);
-        List<Account> accounts = customer.getAccounts();
-        accounts.add(checking);
-        dbManager.addChecking(customer, checking);
-    }
 //
 //    public static Account getAccount(int customerId, int accountNumber) {
 //        Customer customer = getCustomer(customerId);

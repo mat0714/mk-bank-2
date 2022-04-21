@@ -1,6 +1,7 @@
 public class MenuAction {
 
     ProfileManager profileManager = new ProfileManager();
+    DBManager dBManager = new DBManager();
 
     public void createProfile() {
         System.out.println("\n--------------------- CREATING NEW CUSTOMER PROFILE ---------------------\n");
@@ -30,8 +31,8 @@ public class MenuAction {
                     "2) Create savings account. \n" +
                     "Enter number here: ");
             AccountType accountType = UserInput.validateAccountType();
-            profileManager.addAccount(customerId, accountType, depositAmount);
-//            ProfileManager.showCustomerDetails(customerId);
+            dBManager.addAccount(customerId, accountType, depositAmount);
+            profileManager.showCustomerDetails(customerId);
         }
         Menu.goToMenu();
     }

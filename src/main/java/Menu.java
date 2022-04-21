@@ -33,7 +33,7 @@ public class Menu {
         switch (userChoice) {
             case 1 -> menuAction.createProfile();
             case 2 -> menuAction.createAccount();
-//            case 3 -> MenuAction.showSingleProfile();
+            case 3 -> menuAction.showSingleProfile();
 //            case 4 -> MenuAction.depositMoney();
 //            case 5 -> MenuAction.withdrawMoney();
 //            case 6 -> MenuAction.showAllProfiles();

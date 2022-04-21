@@ -36,14 +36,14 @@ public class MenuAction {
         }
         Menu.goToMenu();
     }
-//
-//    public static void showSingleProfile() {
-//        System.out.println("\n---------------------------- CUSTOMER DETAILS ---------------------------\n");
-//        System.out.print("Please enter customer ID number: ");
-//        int customerID = UserInput.validateCustomerId();
-//        ProfileManager.showCustomerDetails(customerID);
-//        Menu.goToMenu();
-//    }
+
+    public void showSingleProfile() {
+        System.out.println("\n---------------------------- CUSTOMER DETAILS ---------------------------\n");
+        System.out.print("Please enter customer ID number: ");
+        int customerID = UserInput.validateCustomerId();
+        profileManager.showCustomerDetails(customerID);
+        Menu.goToMenu();
+    }
 //
 //    public static void depositMoney() {
 //        System.out.println("\n---------------------------- DEPOSIT MONEY ---------------------------\n ");

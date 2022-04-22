@@ -34,8 +34,8 @@ public class Menu {
             case 1 -> menuAction.createProfile();
             case 2 -> menuAction.createAccount();
             case 3 -> menuAction.showSingleProfile();
-//            case 4 -> MenuAction.depositMoney();
-//            case 5 -> MenuAction.withdrawMoney();
+            case 4 -> menuAction.depositMoney();
+            case 5 -> menuAction.withdrawMoney();
 //            case 6 -> MenuAction.showAllProfiles();
 //            case 7 -> MenuAction.changeSavingsInterestRate();
 //            case 8 -> MenuAction.quitApp();

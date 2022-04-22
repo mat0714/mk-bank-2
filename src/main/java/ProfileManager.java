@@ -26,6 +26,16 @@ public class ProfileManager {
         }
     }
 
+//        public void deposit(Customer customer, double depositAmount, int accountNumber) {
+//        double balance = account.getBalance();
+//        double newBalance = balance + depositAmount;
+//        int accountNumber = account.getNumber();
+//        boolean depositSucceed = DBManager.updateBalance(accountNumber, newBalance);
+//        if (depositSucceed) {
+//            System.out.println("\n--- Deposit was made. ---");
+//        }
+//    }
+
 //
 //    public static Account getAccount(int customerId, int accountNumber) {
 //        Customer customer = getCustomer(customerId);

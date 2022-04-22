@@ -34,12 +34,56 @@ public class DBManager {
                 accounts.add(savings);
             }
         }
-
-
-
-
         transaction.commit();
     }
+    public void deposit(int customerId, double depositAmount, int accountNumber) {
+        EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
+        Customer customer = entityManager.find(Customer.class, customerId);
+        List<Account> accounts = customer.getAccounts();
+        double newBalance = depositAmount;
+        for (Account account : accounts) {
+            if (account.getNumber() == accountNumber) {
+                double balance = account.getBalance();
+                newBalance = balance + depositAmount;
+                account.setBalance(newBalance);
+            }
+        }
+        if (newBalance == depositAmount) {
+            System.out.println("\n--- Entered account is not owned by this customer. ---\n");
+        }
+        transaction.commit();
+    }
+
+    public void withdraw(int customerId, double withdrawAmount, int accountNumber) {
+        EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
+        Customer customer = entityManager.find(Customer.class, customerId);
+        List<Account> accounts = customer.getAccounts();
+        double newBalance = withdrawAmount;
+        for (Account account : accounts) {
+            if (account.getNumber() == accountNumber) {
+                if (isWithdrawPossible(account, withdrawAmount)) {
+                    newBalance = account.getBalance() - withdrawAmount;
+                    account.setBalance(newBalance);
+                }
+            }
+        }
+        if (newBalance == withdrawAmount) {
+            System.out.println("\n--- Entered account is not owned by this customer. ---\n");
+        }
+        transaction.commit();
+    }
+
+    public boolean isWithdrawPossible(Account account, double withdrawAmount) {
+        double balance = account.getBalance();
+        if (withdrawAmount <= balance) {
+            return true;
+        }
+        System.out.println("\n--- Not enough funds on this account. ---");
+        return false;
+    }
+
 
 //    public static int addCustomer(String name, String surname, int pesel) {
 //        int customerId = 0;

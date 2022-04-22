@@ -1,3 +1,6 @@
+import java.util.Arrays;
+import java.util.List;
+
 public class MenuAction {
 
     ProfileManager profileManager = new ProfileManager();
@@ -44,47 +47,41 @@ public class MenuAction {
         profileManager.showCustomerDetails(customerID);
         Menu.goToMenu();
     }
-//
-//    public static void depositMoney() {
-//        System.out.println("\n---------------------------- DEPOSIT MONEY ---------------------------\n ");
-//        System.out.print("Please enter customer ID number: ");
-//        int customerID = UserInput.validateCustomerId();
-//        Customer customer = ProfileManager.getCustomer(customerID);
-//        if (customer != null) {
-//            ProfileManager.showCustomerDetails(customerID);
-//            System.out.print("Please enter deposit amount[$]: ");
-//            double depositAmount = UserInput.validateMoneyAmount();
-//            System.out.print("Choose account and enter its number: ");
-//            int accountNumber = UserInput.validateAccountNumber();
-//            Account account = ProfileManager.getAccount(customerID, accountNumber);
-//            if (account != null) {
-//                ProfileManager.deposit(account, depositAmount);
-//                ProfileManager.showCustomerDetails(customerID);
-//            }
-//        }
-//        Menu.goToMenu();
-//    }
-//
-//    public static void withdrawMoney() {
-//        System.out.println("\n--------------------------- WITHDRAW MONEY ---------------------------\n");
-//        System.out.print("Please enter customer ID number: ");
-//        int customerID = UserInput.validateCustomerId();
-//        Customer customer = ProfileManager.getCustomer(customerID);
-//        if (customer != null) {
-//            System.out.println("\n                          CUSTOMERS DETAILS                           ");
-//            System.out.println(customer);
-//            System.out.print("Please enter withdraw amount[$]: ");
-//            double withdrawAmount = UserInput.validateMoneyAmount();
-//            System.out.print("Choose account and enter its number: ");
-//            int accountNumber = UserInput.validateAccountNumber();
-//            Account account = ProfileManager.getAccount(customerID, accountNumber);
-//            if (account != null) {
-//                ProfileManager.withdraw(account, withdrawAmount);
-//                ProfileManager.showCustomerDetails(customerID);
-//            }
-//        }
-//        Menu.goToMenu();
-//    }
+
+    public void depositMoney() {
+        System.out.println("\n---------------------------- DEPOSIT MONEY ---------------------------\n ");
+        System.out.print("Please enter customer ID number: ");
+        int customerId = UserInput.validateCustomerId();
+        Customer customer = profileManager.getCustomer(customerId);
+        if (customer != null) {
+            profileManager.showCustomerDetails(customerId);
+            System.out.print("Please enter deposit amount[$]: ");
+            double depositAmount = UserInput.validateMoneyAmount();
+            System.out.print("Choose account and enter its number: ");
+            int accountNumber = UserInput.validateAccountNumber();
+            dBManager.deposit(customerId, depositAmount, accountNumber);
+            profileManager.showCustomerDetails(customerId);
+            Menu.goToMenu();
+        }
+    }
+
+    public void withdrawMoney() {
+        System.out.println("\n--------------------------- WITHDRAW MONEY ---------------------------\n");
+        System.out.print("Please enter customer ID number: ");
+        int customerId = UserInput.validateCustomerId();
+        Customer customer = profileManager.getCustomer(customerId);
+        if (customer != null) {
+            System.out.println("\n                          CUSTOMERS DETAILS                           ");
+            System.out.println(customer);
+            System.out.print("Please enter withdraw amount[$]: ");
+            double withdrawAmount = UserInput.validateMoneyAmount();
+            System.out.print("Choose account and enter its number: ");
+            int accountNumber = UserInput.validateAccountNumber();
+            dBManager.withdraw(customerId, withdrawAmount, accountNumber);
+            profileManager.showCustomerDetails(customerId);
+        }
+        Menu.goToMenu();
+    }
 //
 //    public static void showAllProfiles() {
 //        System.out.println("\n-------------------- ALL CUSTOMERS AND THEIR ACCOUNTS -------------------\n");

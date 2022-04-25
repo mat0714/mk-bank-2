@@ -2,29 +2,6 @@ import java.util.List;
 
 public class ProfileManager {
 
-    DBManager dbManager = new DBManager();
-
-    public void addCustomer(Customer customer) {
-        dbManager.addCustomer(customer);
-        System.out.println("\n--- Customer profile was successfully created. ---");
-    }
-
-    public Customer getCustomer(int customerId) {
-        Customer customer = dbManager.getCustomer(customerId);
-        if (customer == null) {
-            System.out.println("\n--- ID wasn't found in database. ---\n");
-        }
-        return customer;
-    }
-
-    public void showCustomerDetails(int customerId) {
-        ProfileManager profileManager = new ProfileManager();
-        Customer customer = profileManager.getCustomer(customerId);
-        if (customer != null) {
-            System.out.println("\n                        ACTUAL CUSTOMER DETAILS                       ");
-            System.out.println(customer);
-        }
-    }
 
 //        public void deposit(Customer customer, double depositAmount, int accountNumber) {
 //        double balance = account.getBalance();

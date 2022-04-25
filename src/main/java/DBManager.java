@@ -1,4 +1,5 @@
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DBManager {
@@ -11,12 +12,24 @@ public class DBManager {
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
         entityManager.persist(customer);
+        System.out.println("\n--- Customer profile was successfully created. ---");
         transaction.commit();
     }
 
     public Customer getCustomer(int customerId) {
         Customer customer = entityManager.find(Customer.class, customerId);
+        if (customer == null) {
+            System.out.println("\n--- ID wasn't found in database. ---\n");
+        }
         return customer;
+    }
+
+    public void showCustomerDetails(int customerId) {
+        Customer customer = getCustomer(customerId);
+        if (customer != null) {
+            System.out.println("\n                        ACTUAL CUSTOMER DETAILS                       ");
+            System.out.println(customer);
+        }
     }
 
     public void addAccount(int customerId, AccountType accountType, double depositAmount) {
@@ -24,6 +37,9 @@ public class DBManager {
         transaction.begin();
         Customer customer = getCustomer(customerId);
         List<Account> accounts = customer.getAccounts();
+        if (accounts == null) {
+            accounts = new ArrayList<>();
+        }
         switch (accountType) {
             case checking -> {
                 Checking checking = new Checking(0, depositAmount, 0.0);
@@ -41,16 +57,17 @@ public class DBManager {
         transaction.begin();
         Customer customer = entityManager.find(Customer.class, customerId);
         List<Account> accounts = customer.getAccounts();
-        double newBalance = depositAmount;
+        boolean accountExist = false;
         for (Account account : accounts) {
             if (account.getNumber() == accountNumber) {
+                accountExist = true;
                 double balance = account.getBalance();
-                newBalance = balance + depositAmount;
+                double newBalance = balance + depositAmount;
                 account.setBalance(newBalance);
             }
         }
-        if (newBalance == depositAmount) {
-            System.out.println("\n--- Entered account is not owned by this customer. ---\n");
+        if (!accountExist) {
+            System.out.println("\n--- Entered account is not owned by this customer. ---");
         }
         transaction.commit();
     }
@@ -60,17 +77,18 @@ public class DBManager {
         transaction.begin();
         Customer customer = entityManager.find(Customer.class, customerId);
         List<Account> accounts = customer.getAccounts();
-        double newBalance = withdrawAmount;
+        boolean accountExist = false;
         for (Account account : accounts) {
             if (account.getNumber() == accountNumber) {
+                accountExist = true;
                 if (isWithdrawPossible(account, withdrawAmount)) {
-                    newBalance = account.getBalance() - withdrawAmount;
+                    double newBalance = account.getBalance() - withdrawAmount;
                     account.setBalance(newBalance);
                 }
             }
         }
-        if (newBalance == withdrawAmount) {
-            System.out.println("\n--- Entered account is not owned by this customer. ---\n");
+        if (!accountExist) {
+            System.out.println("\n--- Entered account is not owned by this customer. ---");
         }
         transaction.commit();
     }

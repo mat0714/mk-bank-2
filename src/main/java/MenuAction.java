@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -14,9 +15,10 @@ public class MenuAction {
         String surname = UserInput.validateText();
         System.out.print("Please enter customer PESEL number: ");
         int pesel = UserInput.validatePesel();
+        List<Account> accounts = new ArrayList<>();
         Customer customer = new Customer(0, name, surname, pesel, null);
-        profileManager.addCustomer(customer);
-        profileManager.showCustomerDetails(customer.getId());
+        dBManager.addCustomer(customer);
+        dBManager.showCustomerDetails(customer.getId());
         Menu.goToMenu();
     }
 
@@ -24,7 +26,7 @@ public class MenuAction {
         System.out.println("\n---------------------- CREATING ACCOUNT FOR CUSTOMER --------------------\n");
         System.out.print("Please enter customer ID number: ");
         int customerId = UserInput.validateCustomerId();
-        Customer customer = profileManager.getCustomer(customerId);
+        Customer customer = dBManager.getCustomer(customerId);
         if (customer != null) {
             System.out.print("Please enter deposit amount[$]: ");
             double depositAmount = UserInput.validateMoneyAmount();
@@ -35,7 +37,7 @@ public class MenuAction {
                     "Enter number here: ");
             AccountType accountType = UserInput.validateAccountType();
             dBManager.addAccount(customerId, accountType, depositAmount);
-            profileManager.showCustomerDetails(customerId);
+            dBManager.showCustomerDetails(customerId);
         }
         Menu.goToMenu();
     }
@@ -44,7 +46,7 @@ public class MenuAction {
         System.out.println("\n---------------------------- CUSTOMER DETAILS ---------------------------\n");
         System.out.print("Please enter customer ID number: ");
         int customerID = UserInput.validateCustomerId();
-        profileManager.showCustomerDetails(customerID);
+        dBManager.showCustomerDetails(customerID);
         Menu.goToMenu();
     }
 
@@ -52,15 +54,15 @@ public class MenuAction {
         System.out.println("\n---------------------------- DEPOSIT MONEY ---------------------------\n ");
         System.out.print("Please enter customer ID number: ");
         int customerId = UserInput.validateCustomerId();
-        Customer customer = profileManager.getCustomer(customerId);
+        Customer customer = dBManager.getCustomer(customerId);
         if (customer != null) {
-            profileManager.showCustomerDetails(customerId);
+            dBManager.showCustomerDetails(customerId);
             System.out.print("Please enter deposit amount[$]: ");
             double depositAmount = UserInput.validateMoneyAmount();
             System.out.print("Choose account and enter its number: ");
             int accountNumber = UserInput.validateAccountNumber();
             dBManager.deposit(customerId, depositAmount, accountNumber);
-            profileManager.showCustomerDetails(customerId);
+            dBManager.showCustomerDetails(customerId);
             Menu.goToMenu();
         }
     }
@@ -69,7 +71,7 @@ public class MenuAction {
         System.out.println("\n--------------------------- WITHDRAW MONEY ---------------------------\n");
         System.out.print("Please enter customer ID number: ");
         int customerId = UserInput.validateCustomerId();
-        Customer customer = profileManager.getCustomer(customerId);
+        Customer customer = dBManager.getCustomer(customerId);
         if (customer != null) {
             System.out.println("\n                          CUSTOMERS DETAILS                           ");
             System.out.println(customer);
@@ -78,7 +80,7 @@ public class MenuAction {
             System.out.print("Choose account and enter its number: ");
             int accountNumber = UserInput.validateAccountNumber();
             dBManager.withdraw(customerId, withdrawAmount, accountNumber);
-            profileManager.showCustomerDetails(customerId);
+            dBManager.showCustomerDetails(customerId);
         }
         Menu.goToMenu();
     }

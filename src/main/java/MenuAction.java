@@ -84,34 +84,28 @@ public class MenuAction {
         }
         Menu.goToMenu();
     }
-//
-//    public static void showAllProfiles() {
-//        System.out.println("\n-------------------- ALL CUSTOMERS AND THEIR ACCOUNTS -------------------\n");
-//        for (Customer customer : DBManager.getAllCustomers()) {
-//            System.out.println(customer);
-//        }
-//        Menu.goToMenu();
-//    }
-//
-//    public static void changeSavingsInterestRate() {
-//        System.out.println("\n--------------- CHANGING SAVINGS ACCOUNTS RATE OF INTEREST --------------\n");
-//        System.out.println(
-//                "Example: enter 0.03 to set up rate on 3%.\n" +
-//                "This operation will change rate of interest for all existing savings accounts.\n" +
-//                "Please enter rate of interest: ");
-//        double interestValue = UserInput.validateInterest();
-//        boolean changeInterestSucceed = DBManager.changeSavingsInterest(interestValue);
-//        if (changeInterestSucceed) {
-//            System.out.println("\n--- Rate of interest for all savings accounts was changed ---\n");
-//        }
-//        else {
-//            System.out.println("\n--- Rate of interest wasn't changed ---\n");
-//        }
-//        Menu.goToMenu();
-//    }
-//
-//    public static void quitApp() {
-//        System.out.println("\nThank you for choosing MK Bank App.");
-//        System.out.println("We will be happy to see you soon :) \n");
-//    }
+
+    public void showAllProfiles() {
+        System.out.println("\n-------------------- ALL CUSTOMERS AND THEIR ACCOUNTS -------------------\n");
+        for (Customer customer : dBManager.getAllCustomers()) {
+            System.out.println(customer);
+        }
+        Menu.goToMenu();
+    }
+
+    public void changeSavingsInterestRate() {
+        System.out.println("\n--------------- CHANGING SAVINGS ACCOUNTS RATE OF INTEREST --------------\n");
+        System.out.println(
+                "Example: enter 0.03 to set up rate on 3%.\n" +
+                "This operation will change rate of interest for all existing savings accounts.\n" +
+                "Please enter rate of interest: ");
+        double interestValue = UserInput.validateInterest();
+        dBManager.changeSavingsInterest(interestValue);
+        Menu.goToMenu();
+    }
+
+    public static void quitApp() {
+        System.out.println("\nThank you for choosing MK Bank App.");
+        System.out.println("We will be happy to see you soon :) \n");
+    }
 }

@@ -36,9 +36,9 @@ public class Menu {
             case 3 -> menuAction.showSingleProfile();
             case 4 -> menuAction.depositMoney();
             case 5 -> menuAction.withdrawMoney();
-//            case 6 -> MenuAction.showAllProfiles();
-//            case 7 -> MenuAction.changeSavingsInterestRate();
-//            case 8 -> MenuAction.quitApp();
+            case 6 -> menuAction.showAllProfiles();
+            case 7 -> menuAction.changeSavingsInterestRate();
+            case 8 -> menuAction.quitApp();
         }
     }
 

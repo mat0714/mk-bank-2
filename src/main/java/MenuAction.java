@@ -1,10 +1,8 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class MenuAction {
 
-    ProfileManager profileManager = new ProfileManager();
     DBManager dBManager = new DBManager();
 
     public void createProfile() {
@@ -104,7 +102,7 @@ public class MenuAction {
         Menu.goToMenu();
     }
 
-    public static void quitApp() {
+    public void quitApp() {
         System.out.println("\nThank you for choosing MK Bank App.");
         System.out.println("We will be happy to see you soon :) \n");
     }

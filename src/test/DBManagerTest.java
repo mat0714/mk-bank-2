@@ -1,6 +1,8 @@
-import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.*;
 import javax.persistence.*;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,17 +32,6 @@ class DBManagerTest {
         entityManager.close();
     }
 
-    int getExampleCustomerId() {
-        Query query = entityManager.createQuery(
-                "SELECT c.id FROM Customer c WHERE c.pesel = 800222077");
-        return (int) query.getSingleResult();
-    }
-
-    Customer getExampleCustomer() {
-        int id = getExampleCustomerId();
-        return entityManager.find(Customer.class, id);
-    }
-
     @BeforeEach
     void setUp() {
         dBManager = new DBManager();
@@ -54,6 +45,12 @@ class DBManagerTest {
     }
 
     @AfterAll
+    void cleanUp() {
+        deleteExampleCustomerWithAccounts();
+        deleteExampleCustomerWithoutAccounts();
+        closeEMF();
+    }
+
     void deleteExampleCustomerWithAccounts() {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(
                 "PersistenceUnit");
@@ -67,8 +64,7 @@ class DBManagerTest {
         entityManager.close();
     }
 
-    @AfterAll
-    void deleteNextExampleCustomerWithoutAccounts() {
+    void deleteExampleCustomerWithoutAccounts() {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(
                 "PersistenceUnit");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -81,9 +77,19 @@ class DBManagerTest {
         entityManager.close();
     }
 
-    @AfterAll
     void closeEMF() {
         entityManagerFactory.close();
+    }
+
+    int getExampleCustomerId() {
+        Query query = entityManager.createQuery(
+                "SELECT c.id FROM Customer c WHERE c.pesel = 800222077");
+        return (int) query.getSingleResult();
+    }
+
+    Customer getExampleCustomer() {
+        int id = getExampleCustomerId();
+        return entityManager.find(Customer.class, id);
     }
 
     @Test
@@ -128,7 +134,7 @@ class DBManagerTest {
     }
 
     @Test
-    void ShouldAddCheckingAccountWithDeposit() {
+    void shouldAddCheckingAccountWithDeposit() {
         // Given
         int id = getExampleCustomerId();
 
@@ -146,7 +152,7 @@ class DBManagerTest {
     }
 
     @Test
-    void ShouldAddSavingsAccountWithDeposit() {
+    void shouldAddSavingsAccountWithDeposit() {
         // Given
         int id = getExampleCustomerId();
 
@@ -164,7 +170,7 @@ class DBManagerTest {
     }
 
     @Test
-    void ShouldDepositMoney() {
+    void shouldDepositMoney() {
         // Given
         Customer customer = getExampleCustomer();
         Account account = customer.getAccounts().stream()
@@ -185,7 +191,7 @@ class DBManagerTest {
     }
 
     @Test
-    void ShouldWithdrawMoney() {
+    void shouldWithdrawMoney() {
         // Given
         Customer customer = getExampleCustomer();
         Account account = customer.getAccounts().stream()
@@ -206,7 +212,7 @@ class DBManagerTest {
     }
 
     @Test
-    void ShouldChangeSavingsAccountsInterestRate() {
+    void shouldChangeSavingsAccountsInterestRate() {
         // Given
         int id = getExampleCustomerId();
 
@@ -220,5 +226,84 @@ class DBManagerTest {
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("No account was found."));
         assertEquals(0.45, savingsAccount.getInterestRate());
+    }
+
+    @Nested
+    class SomethingWentWrongMessage {
+
+        ByteArrayOutputStream systemMessage;
+
+        @AfterEach
+        void restoreSystemOutput(){
+            System.setOut(System.out);
+        }
+
+        ByteArrayOutputStream getSystemMessage() {
+            ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+            System.setOut(new PrintStream(outContent));
+            return outContent;
+        }
+
+        @Test
+        void shouldPrintIdWasNotFound() {
+            // Given
+            int id = Integer.MAX_VALUE;
+            systemMessage = getSystemMessage();
+
+            // When
+            dBManager.getCustomer(id);
+
+            // Then
+            assertEquals("--- ID wasn't found in database. ---", systemMessage.toString().trim());
+        }
+
+        @Test
+        void shouldPrintAccountIsNotOwnedByThisCustomerWhenMakingDeposit() {
+            // Given
+            Customer customer = getExampleCustomer();
+            int accountNumber = Integer.MAX_VALUE;
+            systemMessage = getSystemMessage();
+
+            // When
+            dBManager.deposit(customer.getId(), 200.0, accountNumber);
+
+            // Then
+            assertEquals("--- Entered account is not owned by this customer. ---",
+                    systemMessage.toString().trim());
+
+        }
+
+        @Test
+        void shouldPrintAccountIsNotOwnedByThisCustomerWhenMakingWithdraw() {
+            // Given
+            Customer customer = getExampleCustomer();
+            int accountNumber = Integer.MAX_VALUE;
+            systemMessage = getSystemMessage();
+
+            // When
+            dBManager.withdraw(customer.getId(), 200.0, accountNumber);
+
+            // Then
+            assertEquals("--- Entered account is not owned by this customer. ---",
+                    systemMessage.toString().trim());
+        }
+
+        @Test
+        void shouldPrintNotEnoughFunds() {
+            // Given
+            Customer customer = getExampleCustomer();
+            Account account = customer.getAccounts().stream()
+                    .findFirst()
+                    .orElseThrow(() -> new RuntimeException("No account was found."));
+            int accountNumber = account.getNumber();
+            systemMessage = getSystemMessage();
+
+            // When
+            dBManager.withdraw(customer.getId(), 20000.0, accountNumber);
+
+            // Then
+            assertEquals("--- Not enough funds on this account. ---",
+                    systemMessage.toString().trim());
+        }
     }
 }

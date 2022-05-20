@@ -4,9 +4,9 @@ import java.util.List;
 
 public class DBManager {
 
-    private EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(
+    private final EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(
             "PersistenceUnit");
-    private EntityManager entityManager = entityManagerFactory.createEntityManager();
+    private final EntityManager entityManager = entityManagerFactory.createEntityManager();
 
     public void addCustomer(Customer customer) {
         EntityTransaction transaction = entityManager.getTransaction();
@@ -52,6 +52,7 @@ public class DBManager {
         }
         transaction.commit();
     }
+
     public void deposit(int customerId, double depositAmount, int accountNumber) {
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
@@ -103,11 +104,8 @@ public class DBManager {
     }
 
     public List<Customer> getAllCustomers() {
-//        List<Customer> customers = entityManager.createNativeQuery("SELECT * FROM customers").getResultList();
-
         TypedQuery<Customer> query = entityManager.createQuery("select c from Customer c", Customer.class);
-        List<Customer> customers = query.getResultList();
-        return customers;
+        return query.getResultList();
     }
 
     public void changeSavingsInterest(double newInterestRate) {
@@ -117,5 +115,10 @@ public class DBManager {
                 .setParameter("newInterestRate", newInterestRate)
                 .executeUpdate();
         transaction.commit();
+    }
+
+    public void closeEntityManager() {
+        entityManager.close();
+        entityManagerFactory.close();
     }
 }

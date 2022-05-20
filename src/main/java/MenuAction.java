@@ -14,7 +14,7 @@ public class MenuAction {
         System.out.print("Please enter customer PESEL number: ");
         int pesel = UserInput.validatePesel();
         List<Account> accounts = new ArrayList<>();
-        Customer customer = new Customer(0, name, surname, pesel, null);
+        Customer customer = new Customer(0, name, surname, pesel, accounts);
         dBManager.addCustomer(customer);
         dBManager.showCustomerDetails(customer.getId());
         Menu.goToMenu();
@@ -105,5 +105,6 @@ public class MenuAction {
     public void quitApp() {
         System.out.println("\nThank you for choosing MK Bank App.");
         System.out.println("We will be happy to see you soon :) \n");
+        dBManager.closeEntityManager();
     }
 }

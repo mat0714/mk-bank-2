@@ -18,7 +18,7 @@ class DBManagerTest {
     void createExampleCustomerWithAccounts() {
         String name = "John";
         String surname = "Doe";
-        int pesel = 800222077;
+        long pesel = 80022207795L;
         Account checkingAccount = new Checking(0, 100.0, 0);
         Account savingsAccount = new Savings(0, 1000.0, 0);
         List<Account> accounts = new ArrayList<>();
@@ -57,7 +57,7 @@ class DBManagerTest {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
         TypedQuery<Customer> query = entityManager.createQuery(
-                "SELECT c FROM Customer c WHERE c.pesel = 800222077", Customer.class);
+                "SELECT c FROM Customer c WHERE c.pesel = 80022207795", Customer.class);
         Customer customer = query.getSingleResult();
         entityManager.remove(customer);
         entityManager.getTransaction().commit();
@@ -70,7 +70,7 @@ class DBManagerTest {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
         TypedQuery<Customer> query = entityManager.createQuery(
-                "SELECT c FROM Customer c WHERE c.pesel = 901125018", Customer.class);
+                "SELECT c FROM Customer c WHERE c.pesel = 90112501844", Customer.class);
         Customer customer = query.getSingleResult();
         entityManager.remove(customer);
         entityManager.getTransaction().commit();
@@ -81,14 +81,14 @@ class DBManagerTest {
         entityManagerFactory.close();
     }
 
-    int getExampleCustomerId() {
+    long getExampleCustomerId() {
         Query query = entityManager.createQuery(
-                "SELECT c.id FROM Customer c WHERE c.pesel = 800222077");
-        return (int) query.getSingleResult();
+                "SELECT c.id FROM Customer c WHERE c.pesel = 80022207795");
+        return (long) query.getSingleResult();
     }
 
     Customer getExampleCustomer() {
-        int id = getExampleCustomerId();
+        long id = getExampleCustomerId();
         return entityManager.find(Customer.class, id);
     }
 
@@ -97,7 +97,7 @@ class DBManagerTest {
         // Given
         String name = "Andrew";
         String surname = "Smith";
-        int pesel = 901125018;
+        long pesel = 90112501844L;
         List<Account> accounts = new ArrayList<>();
         Customer exampleCustomer = new Customer(0, name, surname, pesel, accounts);
 
@@ -106,21 +106,21 @@ class DBManagerTest {
 
         // Then
         Query query = entityManager.createQuery(
-                "SELECT c.id FROM Customer c WHERE c.pesel = 901125018");
-        int id = (int) query.getSingleResult();
+                "SELECT c.id FROM Customer c WHERE c.pesel = 90112501844");
+        long id = (long) query.getSingleResult();
         Customer customerFromDatabase = entityManager.find(Customer.class, id);
 
         assertTrue(customerFromDatabase.getId() > 0);
         assertEquals("Andrew", customerFromDatabase.getName());
         assertEquals("Smith", customerFromDatabase.getSurname());
-        assertEquals(901125018, customerFromDatabase.getPesel());
+        assertEquals(90112501844L, customerFromDatabase.getPesel());
         assertEquals(0, customerFromDatabase.getAccounts().size());
     }
 
     @Test
     void shouldGetCustomer() {
         // Given
-        int id = getExampleCustomerId();
+        long id = getExampleCustomerId();
 
         // When
         Customer customer = dBManager.getCustomer(id);
@@ -129,14 +129,14 @@ class DBManagerTest {
         assertTrue(customer.getId() > 0);
         assertEquals("John", customer.getName());
         assertEquals("Doe", customer.getSurname());
-        assertEquals(800222077, customer.getPesel());
+        assertEquals(80022207795L, customer.getPesel());
         assertEquals(2, customer.getAccounts().size());
     }
 
     @Test
     void shouldAddCheckingAccountWithDeposit() {
         // Given
-        int id = getExampleCustomerId();
+        long id = getExampleCustomerId();
 
         // When
         dBManager.addAccount(id, AccountType.checking, 200);
@@ -154,7 +154,7 @@ class DBManagerTest {
     @Test
     void shouldAddSavingsAccountWithDeposit() {
         // Given
-        int id = getExampleCustomerId();
+        long id = getExampleCustomerId();
 
         // When
         dBManager.addAccount(id, AccountType.savings, 600.0);
@@ -176,7 +176,7 @@ class DBManagerTest {
         Account account = customer.getAccounts().stream()
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("No account was found."));
-        int accountNumber = account.getNumber();
+        long accountNumber = account.getNumber();
         double accountInitialBalance = account.getBalance();
 
         // When
@@ -197,7 +197,7 @@ class DBManagerTest {
         Account account = customer.getAccounts().stream()
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("No account was found."));
-        int accountNumber = account.getNumber();
+        long accountNumber = account.getNumber();
         double accountInitialBalance = account.getBalance();
 
         // When
@@ -214,7 +214,7 @@ class DBManagerTest {
     @Test
     void shouldChangeSavingsAccountsInterestRate() {
         // Given
-        int id = getExampleCustomerId();
+        long id = getExampleCustomerId();
 
         // When
         dBManager.changeSavingsInterest(0.45);
@@ -247,7 +247,7 @@ class DBManagerTest {
         @Test
         void shouldPrintIdWasNotFound() {
             // Given
-            int id = Integer.MAX_VALUE;
+            long id = Long.MAX_VALUE;
             systemMessage = getSystemMessage();
 
             // When
@@ -261,7 +261,7 @@ class DBManagerTest {
         void shouldPrintAccountIsNotOwnedByThisCustomerWhenMakingDeposit() {
             // Given
             Customer customer = getExampleCustomer();
-            int accountNumber = Integer.MAX_VALUE;
+            long accountNumber = Long.MAX_VALUE;
             systemMessage = getSystemMessage();
 
             // When
@@ -277,7 +277,7 @@ class DBManagerTest {
         void shouldPrintAccountIsNotOwnedByThisCustomerWhenMakingWithdraw() {
             // Given
             Customer customer = getExampleCustomer();
-            int accountNumber = Integer.MAX_VALUE;
+            long accountNumber = Long.MAX_VALUE;
             systemMessage = getSystemMessage();
 
             // When
@@ -295,7 +295,7 @@ class DBManagerTest {
             Account account = customer.getAccounts().stream()
                     .findFirst()
                     .orElseThrow(() -> new RuntimeException("No account was found."));
-            int accountNumber = account.getNumber();
+            long accountNumber = account.getNumber();
             systemMessage = getSystemMessage();
 
             // When

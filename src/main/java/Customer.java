@@ -7,17 +7,17 @@ public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
     private String name;
     private String surname;
-    private int pesel;
+    private long pesel;
     @OneToMany(cascade = CascadeType.ALL)
     private List<Account> accounts;
 
     public Customer() {
     }
 
-    public Customer(int id, String name, String surname, int pesel, List<Account> accounts) {
+    public Customer(int id, String name, String surname, long pesel, List<Account> accounts) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -25,11 +25,11 @@ public class Customer {
         this.accounts = accounts;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -49,11 +49,11 @@ public class Customer {
         this.surname = surname;
     }
 
-    public int getPesel() {
+    public long getPesel() {
         return pesel;
     }
 
-    public void setPesel(int pesel) {
+    public void setPesel(long pesel) {
         this.pesel = pesel;
     }
 

@@ -16,7 +16,7 @@ public class DBManager {
         transaction.commit();
     }
 
-    public Customer getCustomer(int customerId) {
+    public Customer getCustomer(long customerId) {
         Customer customer = entityManager.find(Customer.class, customerId);
         if (customer == null) {
             System.out.println("\n--- ID wasn't found in database. ---\n");
@@ -24,7 +24,7 @@ public class DBManager {
         return customer;
     }
 
-    public void showCustomerDetails(int customerId) {
+    public void showCustomerDetails(long customerId) {
         Customer customer = getCustomer(customerId);
         if (customer != null) {
             System.out.println("\n                        ACTUAL CUSTOMER DETAILS                       ");
@@ -32,7 +32,7 @@ public class DBManager {
         }
     }
 
-    public void addAccount(int customerId, AccountType accountType, double depositAmount) {
+    public void addAccount(long customerId, AccountType accountType, double depositAmount) {
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
         Customer customer = getCustomer(customerId);
@@ -53,7 +53,7 @@ public class DBManager {
         transaction.commit();
     }
 
-    public void deposit(int customerId, double depositAmount, int accountNumber) {
+    public void deposit(long customerId, double depositAmount, long accountNumber) {
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
         Customer customer = entityManager.find(Customer.class, customerId);
@@ -73,7 +73,7 @@ public class DBManager {
         transaction.commit();
     }
 
-    public void withdraw(int customerId, double withdrawAmount, int accountNumber) {
+    public void withdraw(long customerId, double withdrawAmount, long accountNumber) {
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
         Customer customer = entityManager.find(Customer.class, customerId);

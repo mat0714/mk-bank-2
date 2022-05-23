@@ -7,7 +7,7 @@ public class Account {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int number;
+    private long number;
     private String type;
     private double balance;
     private double interestRate;
@@ -15,17 +15,17 @@ public class Account {
     public Account() {
     }
 
-    public Account(int number, double balance, double interestRate) {
+    public Account(long number, double balance, double interestRate) {
         this.number = number;
         this.balance = balance;
         this.interestRate = interestRate;
     }
 
-    public int getNumber() {
+    public long getNumber() {
         return number;
     }
 
-    public void setNumber(int number) {
+    public void setNumber(long number) {
         this.number = number;
     }
 

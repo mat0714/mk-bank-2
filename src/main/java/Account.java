@@ -8,7 +8,7 @@ public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long number;
-    private String type;
+    private String name;
     private double balance;
     private double interestRate;
 
@@ -29,12 +29,12 @@ public class Account {
         this.number = number;
     }
 
-    public String getType() {
-        return type;
+    public String getName() {
+        return name;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public double getBalance() {
@@ -57,7 +57,7 @@ public class Account {
     public String toString() {
         return "\n\t\t  " +
                 "Number: " + this.getNumber() +
-                ", Type: " + this.getType() +
+                ", Name: " + this.getName() +
                 ", Balance: " + this.getBalance() + " $" +
                 ", Interest: " + this.getInterestRate() + " %";
     }

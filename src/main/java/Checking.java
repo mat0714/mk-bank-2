@@ -8,7 +8,6 @@ public class Checking extends Account {
 
     public Checking(int number, double balance, double interestRate) {
         super(number, balance, interestRate);
-        this.setType(AccountType.checking.name());
+        this.setName(AccountName.STANDARD_CHECKING.name().toLowerCase());
     }
-
 }

@@ -30,11 +30,11 @@ public class MenuAction {
             double depositAmount = UserInput.validateMoneyAmount();
             System.out.print(
                     "Please choose type of account: \n" +
-                    "1) Create checking account. \n" +
-                    "2) Create savings account. \n" +
+                    "1) Create standard checking account. \n" +
+                    "2) Create smart savings account. \n" +
                     "Enter number here: ");
-            AccountType accountType = UserInput.validateAccountType();
-            dBManager.addAccount(customerId, accountType, depositAmount);
+            AccountName accountName = UserInput.validateAccountType();
+            dBManager.addAccount(customerId, accountName, depositAmount);
             dBManager.showCustomerDetails(customerId);
         }
         Menu.goToMenu();

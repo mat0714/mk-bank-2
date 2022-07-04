@@ -32,7 +32,7 @@ public class DBManager {
         }
     }
 
-    public void addAccount(long customerId, AccountType accountType, double depositAmount) {
+    public void addAccount(long customerId, AccountName accountName, double depositAmount) {
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
         Customer customer = getCustomer(customerId);
@@ -40,12 +40,12 @@ public class DBManager {
         if (accounts == null) {
             accounts = new ArrayList<>();
         }
-        switch (accountType) {
-            case checking -> {
+        switch (accountName) {
+            case STANDARD_CHECKING -> {
                 Checking checking = new Checking(0, depositAmount, 0.0);
                 accounts.add(checking);
             }
-            case savings -> {
+            case SMART_SAVINGS -> {
                 Savings savings = new Savings(0, depositAmount, 0.05);
                 accounts.add(savings);
             }

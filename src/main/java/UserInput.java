@@ -72,8 +72,8 @@ public class UserInput {
         return interest;
     }
 
-    public static AccountType validateAccountType() {
-        AccountType accountType = AccountType.undefined;
+    public static AccountName validateAccountType() {
+        AccountName accountName = AccountName.UNDEFINED;
         int userChoice = 0;
         while (userChoice == 0) {
             try {
@@ -87,10 +87,10 @@ public class UserInput {
             }
         }
         switch (userChoice) {
-            case 1 -> accountType = AccountType.checking;
-            case 2 -> accountType = AccountType.savings;
+            case 1 -> accountName = AccountName.STANDARD_CHECKING;
+            case 2 -> accountName = AccountName.SMART_SAVINGS;
         }
-        return accountType;
+        return accountName;
     }
 
     public static int validateAccountNumber() {

@@ -139,12 +139,12 @@ class DBManagerTest {
         long id = getExampleCustomerId();
 
         // When
-        dBManager.addAccount(id, AccountType.checking, 200);
+        dBManager.addAccount(id, AccountName.STANDARD_CHECKING, 200);
 
         // Then
         Customer customer = getExampleCustomer();
         long numberOfAppropriateAccounts = customer.getAccounts().stream().
-                filter(account -> account.getType().equals(AccountType.checking.name()) &&
+                filter(account -> account.getName().equals(AccountName.STANDARD_CHECKING.name()) &&
                         account.getBalance() == 200.0 &&
                         account.getNumber() > 0)
                 .count();
@@ -157,12 +157,12 @@ class DBManagerTest {
         long id = getExampleCustomerId();
 
         // When
-        dBManager.addAccount(id, AccountType.savings, 600.0);
+        dBManager.addAccount(id, AccountName.SMART_SAVINGS, 600.0);
 
         // Then
         Customer customer = getExampleCustomer();
         long numberOfAppropriateAccounts = customer.getAccounts().stream().
-                filter(account -> account.getType().equals(AccountType.savings.name()) &&
+                filter(account -> account.getName().equals(AccountName.SMART_SAVINGS.name()) &&
                         account.getBalance() == 600.0  &&
                         account.getNumber() > 0)
                 .count();
@@ -222,7 +222,7 @@ class DBManagerTest {
         // Then
         Customer customer = entityManager.find(Customer.class, id);
         Account savingsAccount = customer.getAccounts().stream()
-                .filter(account -> account.getType().equals(AccountType.savings.name()))
+                .filter(account -> account.getName().equals(AccountName.SMART_SAVINGS.name()))
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("No account was found."));
         assertEquals(0.45, savingsAccount.getInterestRate());

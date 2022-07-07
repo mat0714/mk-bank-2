@@ -1,8 +1,14 @@
 import static org.junit.jupiter.api.Assertions.*;
+
+import domain.Account;
+import domain.AccountName;
+import domain.Checking;
+import domain.Savings;
 import org.junit.jupiter.api.*;
 import javax.persistence.*;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,8 +25,8 @@ class DBManagerTest {
         String name = "John";
         String surname = "Doe";
         long pesel = 80022207795L;
-        Account checkingAccount = new Checking(0, 100.0, 0);
-        Account savingsAccount = new Savings(0, 1000.0, 0);
+        Account checkingAccount = new Checking(0, BigDecimal.valueOf(100), BigDecimal.valueOf(0));
+        Account savingsAccount = new Savings(0, BigDecimal.valueOf(1000), BigDecimal.valueOf(0));
         List<Account> accounts = new ArrayList<>();
         accounts.add(checkingAccount);
         accounts.add(savingsAccount);
@@ -139,13 +145,13 @@ class DBManagerTest {
         long id = getExampleCustomerId();
 
         // When
-        dBManager.addAccount(id, AccountName.STANDARD_CHECKING, 200);
+        dBManager.addAccount(id, AccountName.STANDARD_CHECKING, BigDecimal.valueOf(200));
 
         // Then
         Customer customer = getExampleCustomer();
-        long numberOfAppropriateAccounts = customer.getAccounts().stream().
-                filter(account -> account.getName().equals(AccountName.STANDARD_CHECKING.name()) &&
-                        account.getBalance() == 200.0 &&
+        long numberOfAppropriateAccounts = customer.getAccounts().stream()
+                .filter(account -> account.getName().equals(AccountName.STANDARD_CHECKING.name()) &&
+                        account.getBalance().compareTo(BigDecimal.valueOf(200)) == 0 &&
                         account.getNumber() > 0)
                 .count();
         assertEquals(1, numberOfAppropriateAccounts);
@@ -157,13 +163,13 @@ class DBManagerTest {
         long id = getExampleCustomerId();
 
         // When
-        dBManager.addAccount(id, AccountName.SMART_SAVINGS, 600.0);
+        dBManager.addAccount(id, AccountName.SMART_SAVINGS, BigDecimal.valueOf(600));
 
         // Then
         Customer customer = getExampleCustomer();
-        long numberOfAppropriateAccounts = customer.getAccounts().stream().
-                filter(account -> account.getName().equals(AccountName.SMART_SAVINGS.name()) &&
-                        account.getBalance() == 600.0  &&
+        long numberOfAppropriateAccounts = customer.getAccounts().stream()
+                .filter(account -> account.getName().equals(AccountName.SMART_SAVINGS.name()) &&
+                        account.getBalance().compareTo(BigDecimal.valueOf(600)) == 0  &&
                         account.getNumber() > 0)
                 .count();
         assertEquals(1, numberOfAppropriateAccounts);
@@ -177,17 +183,17 @@ class DBManagerTest {
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("No account was found."));
         long accountNumber = account.getNumber();
-        double accountInitialBalance = account.getBalance();
+        BigDecimal accountInitialBalance = account.getBalance();
 
         // When
-        dBManager.deposit(customer.getId(), 200.0, accountNumber);
+        dBManager.deposit(customer.getId(), BigDecimal.valueOf(200), accountNumber);
 
         // Then
         Query query = entityManager.createQuery(
                 "SELECT a.balance FROM Account a WHERE number = :accountNumber")
                 .setParameter("accountNumber", accountNumber);
-        double accountFinalBalance = (double) query.getSingleResult();
-        assertEquals(accountInitialBalance + 200.0, accountFinalBalance);
+        BigDecimal accountFinalBalance = (BigDecimal) query.getSingleResult();
+        assertEquals(accountInitialBalance.add(BigDecimal.valueOf(200)), accountFinalBalance);
     }
 
     @Test
@@ -198,17 +204,17 @@ class DBManagerTest {
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("No account was found."));
         long accountNumber = account.getNumber();
-        double accountInitialBalance = account.getBalance();
+        BigDecimal accountInitialBalance = account.getBalance();
 
         // When
-        dBManager.withdraw(customer.getId(), 200.0, accountNumber);
+        dBManager.withdraw(customer.getId(), BigDecimal.valueOf(200), accountNumber);
 
         // Then
         Query query = entityManager.createQuery(
                         "SELECT a.balance FROM Account a WHERE number = :accountNumber")
                 .setParameter("accountNumber", accountNumber);
-        double accountFinalBalance = (double) query.getSingleResult();
-        assertEquals(accountInitialBalance - 200.0, accountFinalBalance);
+        BigDecimal accountFinalBalance = (BigDecimal) query.getSingleResult();
+        assertEquals(accountInitialBalance.subtract(BigDecimal.valueOf(200)), accountFinalBalance);
     }
 
     @Test
@@ -217,7 +223,7 @@ class DBManagerTest {
         long id = getExampleCustomerId();
 
         // When
-        dBManager.changeSavingsInterest(0.45);
+        dBManager.changeSavingsInterest(BigDecimal.valueOf(0.45));
 
         // Then
         Customer customer = entityManager.find(Customer.class, id);
@@ -225,7 +231,8 @@ class DBManagerTest {
                 .filter(account -> account.getName().equals(AccountName.SMART_SAVINGS.name()))
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("No account was found."));
-        assertEquals(0.45, savingsAccount.getInterestRate());
+        BigDecimal interestRate = savingsAccount.getInterestRate();
+        assertEquals(0, interestRate.compareTo(BigDecimal.valueOf(0.45)));
     }
 
     @Nested
@@ -265,7 +272,7 @@ class DBManagerTest {
             systemMessage = getSystemMessage();
 
             // When
-            dBManager.deposit(customer.getId(), 200.0, accountNumber);
+            dBManager.deposit(customer.getId(), BigDecimal.valueOf(200), accountNumber);
 
             // Then
             assertEquals("--- Entered account is not owned by this customer. ---",
@@ -281,7 +288,7 @@ class DBManagerTest {
             systemMessage = getSystemMessage();
 
             // When
-            dBManager.withdraw(customer.getId(), 200.0, accountNumber);
+            dBManager.withdraw(customer.getId(), BigDecimal.valueOf(200), accountNumber);
 
             // Then
             assertEquals("--- Entered account is not owned by this customer. ---",
@@ -299,7 +306,7 @@ class DBManagerTest {
             systemMessage = getSystemMessage();
 
             // When
-            dBManager.withdraw(customer.getId(), 20000.0, accountNumber);
+            dBManager.withdraw(customer.getId(), BigDecimal.valueOf(20000), accountNumber);
 
             // Then
             assertEquals("--- Not enough funds on this account. ---",

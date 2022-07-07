@@ -1,3 +1,7 @@
+import domain.Account;
+import domain.AccountName;
+
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +31,7 @@ public class MenuAction {
         Customer customer = dBManager.getCustomer(customerId);
         if (customer != null) {
             System.out.print("Please enter deposit amount[$]: ");
-            double depositAmount = UserInput.validateMoneyAmount();
+            BigDecimal depositAmount = UserInput.validateMoneyAmount();
             System.out.print(
                     "Please choose type of account: \n" +
                     "1) Create standard checking account. \n" +
@@ -56,7 +60,7 @@ public class MenuAction {
         if (customer != null) {
             dBManager.showCustomerDetails(customerId);
             System.out.print("Please enter deposit amount[$]: ");
-            double depositAmount = UserInput.validateMoneyAmount();
+            BigDecimal depositAmount = UserInput.validateMoneyAmount();
             System.out.print("Choose account and enter its number: ");
             int accountNumber = UserInput.validateAccountNumber();
             dBManager.deposit(customerId, depositAmount, accountNumber);
@@ -74,7 +78,7 @@ public class MenuAction {
             System.out.println("\n                          CUSTOMERS DETAILS                           ");
             System.out.println(customer);
             System.out.print("Please enter withdraw amount[$]: ");
-            double withdrawAmount = UserInput.validateMoneyAmount();
+            BigDecimal withdrawAmount = UserInput.validateMoneyAmount();
             System.out.print("Choose account and enter its number: ");
             int accountNumber = UserInput.validateAccountNumber();
             dBManager.withdraw(customerId, withdrawAmount, accountNumber);
@@ -97,7 +101,7 @@ public class MenuAction {
                 "Example: enter 0.03 to set up rate on 3%.\n" +
                 "This operation will change rate of interest for all existing savings accounts.\n" +
                 "Please enter rate of interest: ");
-        double interestValue = UserInput.validateInterest();
+        BigDecimal interestValue = UserInput.validateInterest();
         dBManager.changeSavingsInterest(interestValue);
         Menu.goToMenu();
     }

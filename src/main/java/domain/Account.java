@@ -1,4 +1,7 @@
+package domain;
+
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "accounts")
@@ -9,13 +12,13 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long number;
     private String name;
-    private double balance;
-    private double interestRate;
+    private BigDecimal balance;
+    private BigDecimal interestRate;
 
     public Account() {
     }
 
-    public Account(long number, double balance, double interestRate) {
+    public Account(long number, BigDecimal balance, BigDecimal interestRate) {
         this.number = number;
         this.balance = balance;
         this.interestRate = interestRate;
@@ -37,19 +40,19 @@ public class Account {
         this.name = name;
     }
 
-    public double getBalance() {
+    public BigDecimal getBalance() {
         return balance;
     }
 
-    public void setBalance(double balance) {
+    public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
 
-    public double getInterestRate() {
+    public BigDecimal getInterestRate() {
         return interestRate;
     }
 
-    public void setInterestRate(double interestRate) {
+    public void setInterestRate(BigDecimal interestRate) {
         this.interestRate = interestRate;
     }
 

@@ -1,3 +1,6 @@
+import domain.AccountName;
+
+import java.math.BigDecimal;
 import java.util.Scanner;
 
 public class UserInput {
@@ -40,14 +43,16 @@ public class UserInput {
         return customerId;
     }
 
-    public static double validateMoneyAmount() {
-        double moneyAmount = 0;
-        while (moneyAmount == 0) {
+    public static BigDecimal validateMoneyAmount() {
+        String moneyAmountText;
+        BigDecimal moneyAmount = BigDecimal.valueOf(0);
+        while (moneyAmount.equals(BigDecimal.valueOf(0))) {
             try {
-                moneyAmount = Double.parseDouble(keyboard.nextLine());
-                if (moneyAmount <= 0) {
+                moneyAmountText = keyboard.nextLine();
+                moneyAmount = new BigDecimal(moneyAmountText);
+                if (moneyAmount.compareTo(BigDecimal.valueOf(0)) <= 0) {
                     System.out.println("\n--- Value should be greater than 0. ---\n");
-                    moneyAmount = 0;
+                    moneyAmount = BigDecimal.valueOf(0);
                 }
             } catch (NumberFormatException e) {
                 System.out.println("\n--- Please enter correct value. ---\n");
@@ -56,14 +61,16 @@ public class UserInput {
         return moneyAmount;
     }
 
-    public static double validateInterest() {
-        double interest = -1.0;
-        while (interest == -1.0) {
+    public static BigDecimal validateInterest() {
+        String interestString;
+        BigDecimal interest = BigDecimal.valueOf(-1);
+        while (interest.equals(BigDecimal.valueOf(-1))) {
             try {
-                interest = Double.parseDouble(keyboard.nextLine());
-                if (interest < 0.0) {
+                interestString = keyboard.nextLine();
+                interest = new BigDecimal(interestString);
+                if (interest.compareTo(BigDecimal.valueOf(0)) < 0) {
                     System.out.println("\n--- Value should be 0 or greater. ---\n");
-                    interest = -1.0;
+                    interest = BigDecimal.valueOf(-1);
                 }
             } catch (NumberFormatException e) {
                 System.out.println("\n--- Please enter correct value. ---\n");

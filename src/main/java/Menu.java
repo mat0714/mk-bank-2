@@ -18,7 +18,7 @@ public class Menu {
         System.out.println("PLEASE CHOOSE ONE OF THE FOLLOWING OPTIONS:");
         System.out.println("=========================================================================");
         System.out.println("1) Create new customer profile.");
-        System.out.println("2) Create account for existing customer(checking/savings).");
+        System.out.println("2) Create account for existing customer.");
         System.out.println("3) Show single customer profile(with accounts).");
         System.out.println("4) Deposit money.");
         System.out.println("5) Withdraw money.");

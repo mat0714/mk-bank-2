@@ -1,4 +1,10 @@
+import domain.Account;
+import domain.AccountName;
+import domain.Checking;
+import domain.Savings;
+
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +38,7 @@ public class DBManager {
         }
     }
 
-    public void addAccount(long customerId, AccountName accountName, double depositAmount) {
+    public void addAccount(long customerId, AccountName accountName, BigDecimal depositAmount) {
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
         Customer customer = getCustomer(customerId);
@@ -42,18 +48,18 @@ public class DBManager {
         }
         switch (accountName) {
             case STANDARD_CHECKING -> {
-                Checking checking = new Checking(0, depositAmount, 0.0);
+                Checking checking = new Checking(0, depositAmount, BigDecimal.valueOf(0.0));
                 accounts.add(checking);
             }
             case SMART_SAVINGS -> {
-                Savings savings = new Savings(0, depositAmount, 0.05);
+                Savings savings = new Savings(0, depositAmount, BigDecimal.valueOf(0.05));
                 accounts.add(savings);
             }
         }
         transaction.commit();
     }
 
-    public void deposit(long customerId, double depositAmount, long accountNumber) {
+    public void deposit(long customerId, BigDecimal depositAmount, long accountNumber) {
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
         Customer customer = entityManager.find(Customer.class, customerId);
@@ -62,8 +68,8 @@ public class DBManager {
         for (Account account : accounts) {
             if (account.getNumber() == accountNumber) {
                 accountExist = true;
-                double balance = account.getBalance();
-                double newBalance = balance + depositAmount;
+                BigDecimal balance = account.getBalance();
+                BigDecimal newBalance = balance.add(depositAmount);
                 account.setBalance(newBalance);
             }
         }
@@ -73,7 +79,7 @@ public class DBManager {
         transaction.commit();
     }
 
-    public void withdraw(long customerId, double withdrawAmount, long accountNumber) {
+    public void withdraw(long customerId, BigDecimal withdrawAmount, long accountNumber) {
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
         Customer customer = entityManager.find(Customer.class, customerId);
@@ -83,7 +89,7 @@ public class DBManager {
             if (account.getNumber() == accountNumber) {
                 accountExist = true;
                 if (isWithdrawPossible(account, withdrawAmount)) {
-                    double newBalance = account.getBalance() - withdrawAmount;
+                    BigDecimal newBalance = account.getBalance().subtract(withdrawAmount);
                     account.setBalance(newBalance);
                 }
             }
@@ -94,9 +100,9 @@ public class DBManager {
         transaction.commit();
     }
 
-    public boolean isWithdrawPossible(Account account, double withdrawAmount) {
-        double balance = account.getBalance();
-        if (withdrawAmount <= balance) {
+    public boolean isWithdrawPossible(Account account, BigDecimal withdrawAmount) {
+        BigDecimal balance = account.getBalance();
+        if (withdrawAmount.compareTo(balance) <= 0) {
             return true;
         }
         System.out.println("\n--- Not enough funds on this account. ---");
@@ -108,13 +114,14 @@ public class DBManager {
         return query.getResultList();
     }
 
-    public void changeSavingsInterest(double newInterestRate) {
+    public void changeSavingsInterest(BigDecimal newInterestRate) {
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
         entityManager.createQuery("update Account a set a.interestRate = :newInterestRate")
                 .setParameter("newInterestRate", newInterestRate)
                 .executeUpdate();
         transaction.commit();
+        System.out.println("Interest Rate of all existing savings accounts was changed");
     }
 
     public void closeEntityManager() {

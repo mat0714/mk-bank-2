@@ -16,7 +16,7 @@ public class MenuAction {
         System.out.print("Please enter customer surname: ");
         String surname = UserInput.validateText();
         System.out.print("Please enter customer PESEL number: ");
-        int pesel = UserInput.validatePesel();
+        long pesel = UserInput.validatePesel();
         List<Account> accounts = new ArrayList<>();
         Customer customer = new Customer(0, name, surname, pesel, accounts);
         dBManager.addCustomer(customer);

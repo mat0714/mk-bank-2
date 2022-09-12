@@ -11,7 +11,7 @@ public class UserInput {
         String text = "";
         while (text.equals("")) {
             text = keyboard.nextLine();
-            if (!text.matches("[A-Za-z]{3,25}")) {
+            if (!text.matches("[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ]{3,25}")) {
                 System.out.println("\n--- Please enter a text(at least 3 letters). ---\n");
                 text = "";
             }
@@ -19,11 +19,11 @@ public class UserInput {
         return text;
     }
 
-    public static int validatePesel() {
-        int pesel = 0;
+    public static long validatePesel() {
+        long pesel = 0;
         while (pesel == 0) {
             try {
-                pesel = Integer.parseInt(keyboard.nextLine());
+                pesel = Long.parseLong(keyboard.nextLine());
             } catch (NumberFormatException e) {
                 System.out.println("\n--- Please enter correct PESEL number. ---\n");
             }

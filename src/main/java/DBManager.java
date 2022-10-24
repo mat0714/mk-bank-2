@@ -1,7 +1,4 @@
-import domain.Account;
-import domain.AccountName;
-import domain.Checking;
-import domain.Savings;
+import domain.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -110,7 +107,7 @@ public class DBManager {
     }
 
     public List<Customer> getAllCustomers() {
-        TypedQuery<Customer> query = entityManager.createQuery("select c from Customer c", Customer.class);
+        TypedQuery<Customer> query = entityManager.createQuery("select c from domain.Customer c", Customer.class);
         return query.getResultList();
     }
 

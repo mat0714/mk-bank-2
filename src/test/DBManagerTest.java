@@ -1,9 +1,6 @@
 import static org.junit.jupiter.api.Assertions.*;
 
-import domain.Account;
-import domain.AccountName;
-import domain.Checking;
-import domain.Savings;
+import domain.*;
 import org.junit.jupiter.api.*;
 import javax.persistence.*;
 import java.io.ByteArrayOutputStream;
@@ -63,7 +60,7 @@ class DBManagerTest {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
         TypedQuery<Customer> query = entityManager.createQuery(
-                "SELECT c FROM Customer c WHERE c.pesel = 80022207795", Customer.class);
+                "SELECT c FROM domain.Customer c WHERE c.pesel = 80022207795", Customer.class);
         Customer customer = query.getSingleResult();
         entityManager.remove(customer);
         entityManager.getTransaction().commit();
@@ -76,7 +73,7 @@ class DBManagerTest {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
         TypedQuery<Customer> query = entityManager.createQuery(
-                "SELECT c FROM Customer c WHERE c.pesel = 90112501844", Customer.class);
+                "SELECT c FROM domain.Customer c WHERE c.pesel = 90112501844", Customer.class);
         Customer customer = query.getSingleResult();
         entityManager.remove(customer);
         entityManager.getTransaction().commit();
@@ -89,7 +86,7 @@ class DBManagerTest {
 
     long getExampleCustomerId() {
         Query query = entityManager.createQuery(
-                "SELECT c.id FROM Customer c WHERE c.pesel = 80022207795");
+                "SELECT c.id FROM domain.Customer c WHERE c.pesel = 80022207795");
         return (long) query.getSingleResult();
     }
 
@@ -112,7 +109,7 @@ class DBManagerTest {
 
         // Then
         Query query = entityManager.createQuery(
-                "SELECT c.id FROM Customer c WHERE c.pesel = 90112501844");
+                "SELECT c.id FROM domain.Customer c WHERE c.pesel = 90112501844");
         long id = (long) query.getSingleResult();
         Customer customerFromDatabase = entityManager.find(Customer.class, id);
 

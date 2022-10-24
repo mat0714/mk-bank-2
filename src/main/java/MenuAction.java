@@ -1,5 +1,6 @@
 import domain.Account;
 import domain.AccountName;
+import domain.Customer;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

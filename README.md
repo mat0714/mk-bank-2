@@ -12,5 +12,7 @@ Using this application you can:
 - show all customers profiles(with their accounts)
 - change all savings accounts rate of interest
 
-Every operation you can realize directly from the console.
+Every operation you can initiate directly from the console.
 
+## Technologies
+Java17, Maven, JUnit, MySQL

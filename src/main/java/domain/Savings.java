@@ -1,6 +1,6 @@
 package domain;
 
-import javax.persistence.Entity;
+import jakarta.persistence.*;
 import java.math.BigDecimal;
 
 @Entity

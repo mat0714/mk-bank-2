@@ -2,7 +2,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import domain.*;
 import org.junit.jupiter.api.*;
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.math.BigDecimal;

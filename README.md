@@ -1,11 +1,9 @@
 # MKBankApp2
 
-![MKBankApp2- screen](https://user-images.githubusercontent.com/96115456/217782586-3cb6bf5e-11bf-43df-976f-859be9058450.png)
-
 ## What is this?
-This is small project created for training purposes. Application is based on Java, Hibernate and MySQL Database. This is continuation of my first project which was based on JDBC ([MKBankApp](https://github.com/mat0714/mk-bank)).
+This is continuation of my first project which was based on JDBC ([MKBankApp](https://github.com/mat0714/mk-bank)). This application was created to learn and put Java, Hibernate and MySQL Database knowledge to practical use.
 
-Using this application you can:
+Application gives possibility to:
 - create new customer profile
 - create account for existing customer (checking or savings)
 - show single customer profile (with accounts)
@@ -14,10 +12,12 @@ Using this application you can:
 - show all customers profiles (with their accounts)
 - change all savings accounts rate of interest
 
-Every operation you can initiate directly from the console.
+Every operation you can initiate directly from the console. Screen from the app you can find below.
+
+![MKBankApp2- screen](https://user-images.githubusercontent.com/96115456/217782586-3cb6bf5e-11bf-43df-976f-859be9058450.png)
 
 ## How to use it?
-After running application in the console you should see welcome message and actions which you are able to perform. Type the number of operation which you want to do and press enter on your keyboard. Next provide necessary data. All results of your activity will be safely saved in database.
+After running application, in the console you should see welcome message and actions which you are able to perform. Type the number of operation which you want to do and press enter on your keyboard. Next provide necessary data. All results of your activity will be safely saved in database.
 
 ## Prerequisites
 - Java 17
@@ -26,12 +26,12 @@ After running application in the console you should see welcome message and acti
 - IDE (I use IntelliJ IDEA)
 
 ## Run
-1. Clone the source code from Github:
+1. Clone the source code from GitHub:
 ```
 https://github.com/mat0714/mk-bank-2
 ```
 2. Create MySQL schema and give it the name "mkbank2"
-3. Open project in your IDE. In IntelliJ IDEA simply click "run". All needed dependencies should be downloaded automatically by Maven).
+3. Open project in your IDE. In IntelliJ IDEA simply click "run". All needed dependencies should be downloaded automatically by Maven.
 
 ## Technologies
 <img src="https://img.shields.io/badge/-JAVA 17-red" alt="Java 17" />  <img src="https://img.shields.io/badge/-HIBERNATE-red" alt="Hibernate" />
